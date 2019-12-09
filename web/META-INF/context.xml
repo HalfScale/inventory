@@ -8,7 +8,7 @@
         maxIdle="30"
         maxWait="10000"
         driverClassName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://localhost:3308/inventory"
+        url="jdbc:mysql://localhost:3309/inventory"
         username="root"
         password="password"/>
 </Context>

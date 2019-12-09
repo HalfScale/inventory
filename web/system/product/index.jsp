@@ -1,6 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:system_page title="Product">
+	<jsp:attribute name="head">
+        
+    </jsp:attribute>
+	
     <jsp:attribute name="post_body">
         <script src="assets/js/product.js"></script>
     </jsp:attribute>
