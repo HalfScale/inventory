@@ -16,12 +16,14 @@ import system.bean.User;
  * @author MacMuffin
  */
 public class UserController {
+	
+//	private static
 
     public UserController() {
     }
     
     public static User getUser(int id) {
-        return 0;
+        return new User();
     }
     
     public static User getUser(Connection con, String username, String password) throws SQLException {

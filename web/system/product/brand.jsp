@@ -2,14 +2,21 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <t:system_page title="Brand">
+	<jsp:attribute name="head">
+
+    </jsp:attribute>
+
+    <jsp:attribute name="post_body">
+        <script src="assets/js/brand.js"></script>
+    </jsp:attribute>
+
     <jsp:body>
-        <p>
-            Bacon ipsum dolor amet alcatra rump sausage flank beef ribs short ribs burgdoggen. 
-            Doner drumstick cow tail pastrami ball tip brisket beef pig pork chop. Sirloin pork belly beef ribs, 
-            spare ribs t-bone tail ground round cow bacon. Leberkas ham hock chuck hamburger boudin ball tip. 
-            Turducken tongue short ribs chicken jowl. Cow prosciutto salami kielbasa. 
-            Chuck t-bone jowl drumstick pastrami, tri-tip frankfurter shankle tongue shoulder.
-        </p>
+		<!--Button section-->
+        <div class="bttn-section-top">
+            <button id="brandAddBttn" type="button" class="btn btn-outline-dark">Add Brand</button>
+        </div>
+
+		<!--Table-->
         <table class="table table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -40,5 +47,42 @@
                 </tr>
             </tbody>
         </table>
+
+		<!--Modal-->
+		<div id="brandModal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Add Brand</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="">Name</label>
+								<input type="text" class="form-control" name="name" required>
+							</div>
+							<div class="form-group">
+								<select class="custom-select" name="status" required>
+									<option selected disabled>Select status</option>
+									<option value="active">Active</option>
+									<option value="inactive">Inactive</option>
+								</select>
+							</div>
+							
+							<input type="submit" class="dummy-submit">
+						</form>
+					</div>
+
+					<div class="modal-footer">
+						<button id="brandModalClose" class="btn btn-secondary" type="button" data-dismiss="modal">close</button>
+						<button id="brandModalSave" class="btn btn-primary" type="button">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
     </jsp:body>
 </t:system_page>
