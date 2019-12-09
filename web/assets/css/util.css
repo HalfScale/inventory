@@ -1,0 +1,21 @@
+/*system css utilities*/
+
+/*widgets*/
+
+.dummy-submit{
+    display: none;
+}
+
+/*buttons*/
+.bttn-section{
+    margin: 5px;
+}
+
+.bttn-section-top{
+    margin-bottom: 10px;
+}
+
+.bttn-section-bttm{
+    margin-top: 10px;
+}
+
