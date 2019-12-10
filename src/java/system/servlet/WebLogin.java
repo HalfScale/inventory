@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import system.bean.User;
-import system.controller.UserController;
+import system.dao.UserController;
 
 /**
  *
