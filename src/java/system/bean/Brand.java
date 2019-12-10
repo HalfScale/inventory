@@ -17,6 +17,9 @@ public class Brand {
    private String name;
    private boolean status;
    
+   public Brand(){
+   }
+   
    public Brand (HttpServletRequest request) {
       this.name = request.getParameter("name");
       this.status = request.getParameter("status").equals("1");
