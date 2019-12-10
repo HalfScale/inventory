@@ -17,8 +17,8 @@ $(function () {
         e.preventDefault();
         var fd = $(this).serializeForm();
         console.log('fd before submit', fd);
-        $.post('/brand.create', fd).done(function () {
-            console.log('success');
+        $.post($g.root_path + 'brand.create', fd).done(function (result) {
+            console.log('success', result);
         });
     });
 });

@@ -5,25 +5,14 @@
  */
 package system.bean;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  *
- * @author Muffin
+ * @author MacMuffin
  */
-public class Brand {
-
+public class Category {
    private int id;
    private String name;
    private boolean status;
-   
-   public Brand(){
-   }
-   
-   public Brand (HttpServletRequest request) {
-      this.name = request.getParameter("name");
-      this.status = request.getParameter("status").equals("1");
-   }
 
    public int getId() {
       return id;
@@ -41,12 +30,13 @@ public class Brand {
       this.name = name;
    }
 
-   public boolean getStatus() {
+   public boolean isStatus() {
       return status;
    }
 
    public void setStatus(boolean status) {
       this.status = status;
    }
+   
    
 }

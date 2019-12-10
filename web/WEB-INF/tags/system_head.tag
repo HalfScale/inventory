@@ -16,3 +16,8 @@
 <script src="${root_path}assets/data_tables/js/datatables.min.js"></script>
 <script src="${root_path}assets/js/util.js"></script>
 <script src="${root_path}assets/js/sidenav.js"></script>
+<script>
+	(function ($g, $) {
+		$g.root_path = '/Inventory/';
+	}(window.$g = window.$g || {}), jQuery);
+</script>

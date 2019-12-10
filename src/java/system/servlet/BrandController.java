@@ -5,6 +5,7 @@
  */
 package system.servlet;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -12,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -27,18 +30,22 @@ import system.bean.Brand;
  *
  * @author MacMuffin
  */
-@WebServlet(name = "BrandController", urlPatterns = {"/brand.create"})
+@WebServlet(
+        name = "BrandController",
+        urlPatterns = {"/brand.create", "/brand.get", "brand.getAll", "brand.update", "brand.delete"}
+)
 public class BrandController extends HttpServlet {
 
    @Resource(name = "jdbc/inventory")
    private DataSource datasource;
    private Connection con;
-   
+
    private static final String SQL_CREATE_BRAND = "insert into `brand` (name, status) VALUES (?, ?)";
    private static final String SQL_GET_BRAND_BY_ID = "select * from `brand` where id = ?";
    private static final String SQL_GET_ALL_BAND = "select * from `brand`";
    private static final String SQL_UPDATE_BRAND = "update brand set name = ?, status =?";
    private static final String SQL_DELETE_PRODUCT = "select * from brand";
+   private static final Gson GSON = new Gson();
 
    public void init() throws ServletException {
       super.init();
@@ -60,24 +67,29 @@ public class BrandController extends HttpServlet {
     */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
-      response.setContentType("text/html;charset=UTF-8");
+      response.setHeader("Content-Type", "application/json");
       try (PrintWriter out = response.getWriter()) {
-         System.out.println("url /brand.create works!");
-//         switch (request.getServletPath()) {
-//            case "/brand.create":
-//               BrandController.createBrand(con, request);
-//               break;
-//            default:
-//               throw new AssertionError();
-//         }
+         Map result = new HashMap();
 
+         switch (request.getServletPath()) {
+            case "/brand.create":
+               this.createBrand(con, result, request);
+               break;
+            case "/brand.get":
+               this.getBrand(con, result, request);
+               break;
+            default:
+               throw new AssertionError();
+         }
+
+         out.println(GSON.toJson(result));
       }
    }
-   
-   public static void createBrand(Connection con, HttpServletRequest request) {
-      
+
+   private void createBrand(Connection con, Map result, HttpServletRequest request) {
+
       Brand brand = new Brand(request);
-      
+
       try (PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_BRAND, Statement.RETURN_GENERATED_KEYS)) {
          pstmt.setString(1, brand.getName());
          pstmt.setBoolean(2, brand.getStatus());
@@ -89,9 +101,53 @@ public class BrandController extends HttpServlet {
             }
          }
 
+         result.put("data", GSON.toJson(brand));
+         result.put("status", 0);
+         result.put("response", "Creation successful!");
+
       } catch (SQLException ex) {
-         Logger.getLogger(system.controller.BrandController.class.getName()).log(Level.SEVERE, null, ex);
+         Logger.getLogger(system.dao.BrandDao.class.getName()).log(Level.SEVERE, null, ex);
+         result.put("status", ex.getErrorCode());
+         result.put("response", ex.getMessage());
       }
+   }
+
+   private void getBrand(Connection con, Map result, HttpServletRequest request) {
+
+      int id = Integer.parseInt(request.getParameter("id"));
+      Brand brand = new Brand();
+
+      try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_BRAND_BY_ID)) {
+         pstmt.setInt(1, id);
+
+         try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+               brand.setId(rs.getInt(1));
+               brand.setName(rs.getString(2));
+               brand.setStatus(rs.getBoolean(3));
+            }
+         }
+
+         result.put("data", GSON.toJson(brand));
+         result.put("status", 0);
+         result.put("response", "Query successful!");
+      } catch (SQLException ex) {
+         Logger.getLogger(system.dao.BrandDao.class.getName()).log(Level.SEVERE, null, ex);
+         result.put("status", ex.getErrorCode());
+         result.put("response", ex.getMessage());
+      }
+   }
+
+   private void getAllBrand(Connection con, Map result) {
+
+   }
+
+   private void updateBrand(Connection con, Map result, HttpServletRequest request) {
+
+   }
+
+   private void deleteBrand() {
+
    }
 
    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
