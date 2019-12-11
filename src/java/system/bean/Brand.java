@@ -13,40 +13,41 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Brand {
 
-   private int id;
-   private String name;
-   private boolean status;
-   
-   public Brand(){
-   }
-   
-   public Brand (HttpServletRequest request) {
-      this.name = request.getParameter("name");
-      this.status = request.getParameter("status").equals("1");
-   }
+	private int id;
+	private String name;
+	private boolean status;
 
-   public int getId() {
-      return id;
-   }
+	public Brand() {
+	}
 
-   public void setId(int id) {
-      this.id = id;
-   }
+	public Brand(HttpServletRequest request) {
+		this.id = Integer.parseInt(request.getParameter("id"));
+		this.name = request.getParameter("name");
+		this.status = request.getParameter("status").equals("1");
+	}
 
-   public String getName() {
-      return name;
-   }
+	public int getId() {
+		return id;
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-   public boolean getStatus() {
-      return status;
-   }
+	public String getName() {
+		return name;
+	}
 
-   public void setStatus(boolean status) {
-      this.status = status;
-   }
-   
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
 }
