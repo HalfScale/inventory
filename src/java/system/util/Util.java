@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package system.utl;
+package system.util;
 
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
