@@ -79,6 +79,7 @@ public class BrandDao {
          pstmt.setString(1, brand.getName());
          pstmt.setBoolean(2, brand.getStatus());
          pstmt.setInt(3, brand.getId());
+		 pstmt.executeUpdate();
       }
    }
    
