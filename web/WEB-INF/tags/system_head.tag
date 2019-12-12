@@ -8,6 +8,7 @@
 <link type="text/css" rel="stylesheet" href="${root_path}assets/bootstrap-4.3.1-dist/css/bootstrap.min.css"/>
 <link type="text/css" rel="stylesheet" href="${root_path}assets/datatables/css/datatables.min.css"/>
 <link type="text/css" rel="stylesheet" href="${root_path}assets/css/util.css"/>
+<link type="text/css" rel="stylesheet" href="${root_path}assets/css/system.css"/>
 <link type="text/css" rel="stylesheet" href="${root_path}assets/css/sidenav.css"/>
 
 <!--JavaScript Source-->

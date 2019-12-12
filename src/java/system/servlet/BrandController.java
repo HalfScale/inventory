@@ -83,7 +83,7 @@ public class BrandController extends HttpServlet {
 					this.updateBrand(con, result, request);
 					break;
 				case "/brand.delete":
-					this.deleteBrand();
+					this.deleteBrand(con, result, request);
 					break;
 				default:
 					break;
@@ -108,31 +108,9 @@ public class BrandController extends HttpServlet {
 		result.put("response", "Creation successful!");
 	}
 
-//	private void getBrand(Connection con, Map result, HttpServletRequest request) {
-//
-//		int id = Integer.parseInt(request.getParameter("id"));
-//		Brand brand = new Brand();
-//
-//		try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_BRAND_BY_ID)) {
-//			pstmt.setInt(1, id);
-//
-//			try (ResultSet rs = pstmt.executeQuery()) {
-//				while (rs.next()) {
-//					brand.setId(rs.getInt(1));
-//					brand.setName(rs.getString(2));
-//					brand.setStatus(rs.getBoolean(3));
-//				}
-//			}
-//
-//			result.put("data", GSON.toJson(brand));
-//			result.put("status", 0);
-//			result.put("response", "Query successful!");
-//		} catch (SQLException ex) {
-//			Logger.getLogger(system.dao.BrandDao.class.getName()).log(Level.SEVERE, null, ex);
-//			result.put("status", ex.getErrorCode());
-//			result.put("response", ex.getMessage());
-//		}
-//	}
+	private void getBrand(Connection con, Map result, HttpServletRequest request) {
+
+	}
 
 	private void getAllBrand(Connection con, Map result) throws SQLException {
 		List<Brand> brands = BrandDao.getAllBrands(con);
@@ -149,8 +127,11 @@ public class BrandController extends HttpServlet {
 		result.put("response", "Update successful!");
 	}
 
-	private void deleteBrand() {
-
+	private void deleteBrand(Connection con, Map result, HttpServletRequest request) throws SQLException{
+		int id = Integer.parseInt(request.getParameter("id"));
+		BrandDao.deleteBrand(con, id);
+		result.put("status", 0);
+		result.put("response", "Delete successful!");
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
