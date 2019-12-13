@@ -26,9 +26,10 @@
                     <th scope="col">Action</th>
                 </tr>
             </thead>
-			<!--            <tbody>
-							
-						</tbody>-->
+
+			<tbody>
+
+			</tbody>
         </table>
 
 		<!--Modal-->
@@ -84,10 +85,12 @@
 							<div class="hidden-widget">
 								<input type="text" class="id" name="id">
 							</div>
+							
 							<div class="form-group">
 								<label for="">Name</label>
 								<input type="text" class="name form-control" name="name" required>
 							</div>
+							
 							<div class="form-group">
 								<label for="">Status</label>
 								<select class="status custom-select" name="status" required>

@@ -21,7 +21,7 @@ public class Brand {
 	}
 
 	public Brand(HttpServletRequest request) {
-		this.id = Integer.parseInt(request.getParameter("id"));
+		this.id = Integer.parseInt(request.getParameter("id") != null ? request.getParameter("id") : "-1");
 		this.name = request.getParameter("name");
 		this.status = request.getParameter("status").equals("1");
 	}
