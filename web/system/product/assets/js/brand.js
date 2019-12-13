@@ -3,12 +3,12 @@ $(function () {
 			brandUpdateModal = $('#brandUpdateModal'),
 			brandDeleteModal = $('#brandDeleteModal'),
 			brandTable = $('#brandTable'),
-			brandAddBttn = $('#brandAddBttn'),
+			brandAddBtn = $('#brandAddBttn'),
 			brandAddSaveBtn = $('#brandAddSave'),
 			brandUpdateSaveBtn = $('#brandUpdateSave'),
 			brandDeleteSaveBtn = $('#brandDeleteSave');
 
-	brandAddBttn.on('click', function () {
+	brandAddBtn.on('click', function () {
 		brandAddModal.find('form').trigger('reset');
 		brandAddModal.modal('show');
 	});
@@ -30,9 +30,13 @@ $(function () {
 		e.preventDefault();
 		var fd = $(this).serializeForm();
 		$.post($g.root_path + 'brand.create', fd).done(function (result) {
-//			console.log('result', result);
+			console.log('result', result);
 			brandTable.DataTable().ajax.reload();
 			brandAddModal.modal('hide');
+			sysAlert({
+				text: result.response,
+				delay: 2000
+			});
 
 		});
 	});
@@ -44,6 +48,10 @@ $(function () {
 //			console.log('result', result);
 			brandTable.DataTable().ajax.reload();
 			brandUpdateModal.modal('hide');
+			sysAlert({
+				text: result.response,
+				delay: 2000
+			});
 
 		});
 	});
@@ -53,9 +61,13 @@ $(function () {
 		e.preventDefault();
 		var fd = $(this).serializeForm();
 		$.post($g.root_path + 'brand.delete', fd).done(function (result) {
-			console.log('result', result);
+//			console.log('result', result);
 			brandTable.DataTable().ajax.reload();
 			brandDeleteModal.modal('hide');
+			sysAlert({
+				text: result.response,
+				delay: 2000
+			});
 		});
 	});
 
@@ -117,5 +129,5 @@ $(function () {
 		$('#myToast').toast('show');
 	});
 	
-	sysAlert();
+	
 });

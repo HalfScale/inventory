@@ -16,6 +16,7 @@
 <script src="${root_path}assets/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
 <script src="${root_path}assets/datatables/js/datatables.min.js"></script>
 <script src="${root_path}assets/js/util.js"></script>
+<script src="${root_path}assets/js/sys.modal.js"></script>
 <script src="${root_path}assets/js/sidenav.js"></script>
 <script>
 	(function ($g, $) {
