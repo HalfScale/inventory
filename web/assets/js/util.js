@@ -62,19 +62,19 @@
 
 function sysAlert(args) {
 	'use strict';
-	
+
 	var body = $('body #content');
 	var _args = $.extend({
 		text: 'Alert!',
 		delay: 1500
 	}, args);
-	
+
 	var defAlertClass = 'standard-alert alert alert-light alert-dismissible fade show text-center';
 	var alert = $('<div>', {
 		class: defAlertClass,
 		role: 'alert'
 	});
-	
+
 	[
 		{
 			el: '<strong>',
@@ -102,30 +102,35 @@ function sysAlert(args) {
 		}
 	].forEach(function (content) {
 		var elem = $(content.el, content.attr);
-		
+
 		if (content.children) {
 			content.children.forEach(function (child) {
 				$(child.el, child.attr).appendTo(elem);
 			});
 		}
-		
+
 		elem.appendTo(alert);
 	});
-	
+
 	alert.appendTo(body);
-	
-	setTimeout(function() {
+
+	setTimeout(function () {
 		alert.alert('close');
 	}, _args.delay);
 }
 
-function testWrapper() {
-	'use strict';
-	var modal = $('<div>', {
+function sysConfirm(args) {
+	var _args = $.extend({
+		title: 'Confirm',
+		text: 'Do you want to confirm this action?',
+		onOpen: null,
+		ok: null
+	}, args);
+
+	var modal = $('<div>').attr({
 		tabIndex: -1,
-		role: 'dialog',
-		class: 'modal fade'
-	});
+		role: 'dialog'
+	}).addClass('modal fade');
 
 	var dialog = $('<div>', {
 		class: 'modal-dialog',
@@ -136,18 +141,25 @@ function testWrapper() {
 		class: 'modal-content'
 	});
 
+	var confirmBtn = $('<button>', {
+		class: 'btn btn-primary',
+		type: 'button',
+		text: 'Confirm'
+	}).on('click', function () {
+		if ($.isFunction(_args.ok)) {
+			_args.ok(modal);
+		}
+	});
+
 	[
 		{
-			attr: {
-				class: 'modal-header',
-				role: 'document'
-			},
+			class: 'modal-header',
 			children: [
 				{
 					el: '<h5>',
 					attr: {
 						class: 'modal-title',
-						text: 'Modal Title'
+						text: _args.title
 					}
 				},
 				{
@@ -158,64 +170,55 @@ function testWrapper() {
 						'data-dismiss': 'modal',
 						'aria-label': 'close'
 					},
-					children: [
-						{
-							el: '<span>',
-							attr: {
-								'aria-hidden': true,
-								html: '&times;'
-							}
+					child: {
+						el: '<span>',
+						attr: {
+							'aria-hidden': true,
+							html: '&times;'
 						}
-					]
+					}
 				}
 			]
 		},
 		{
-			attr: {
-				class: 'modal-body'
-			}
+			class: 'modal-body',
+			children: [
+				{
+					el: '<span>',
+					attr: {
+						text: _args.title
+					}
+				}
+			]
 		},
 		{
-			attr: {
-				class: 'modal-footer'
-			},
+			class: 'modal-footer',
 			children: [
 				{
 					el: '<button>',
 					attr: {
-						type: 'button',
 						class: 'btn btn-secondary',
+						type: 'button',
 						'data-dismiss': 'modal',
 						text: 'Close'
-					}
-				},
-				{
-					el: '<button>',
-					attr: {
-						type: 'button',
-						class: 'btn btn-primary',
-						'data-dismiss': 'modal',
-						text: 'Confirm'
 					}
 				}
 			]
 		}
 	].forEach(function (section) {
-		var div = $('<div>', section.attr);
-
+		var div = $('<div>').addClass(section.class);
 
 		if (section.children) {
 			section.children.forEach(function (child) {
 				var elem = $(child.el, child.attr);
-
-				if (child.children) {
-					child.children.forEach(function (cc) {
-						$(cc.el, cc.attr).appendTo(elem);
-					});
+				if (child.child) {
+					$(child.child.el, child.child.attr).appendTo(elem);
 				}
-
 				elem.appendTo(div);
 			});
+		}
+		if (section.class === 'modal-footer') {
+			confirmBtn.appendTo(div);
 		}
 
 		div.appendTo(content);

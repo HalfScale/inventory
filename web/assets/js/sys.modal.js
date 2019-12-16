@@ -2,6 +2,7 @@
 	$.fn.standardDialog = function (args) {
 		var _args = $.extend({
 			title: 'Dialog',
+			onOpen: null,
 			ajax: null,
 			done: null,
 			formReset: true
@@ -104,6 +105,12 @@
 
 		content.appendTo(dialog);
 		dialog.appendTo($this);
+		
+		if ($.isFunction(_args.onOpen)) {
+			$this.on('show.bs.modal', function () {
+				_args.onOpen();
+			});
+		}
 
 		form.on('submit', function (e) {
 			e.preventDefault();
