@@ -9,10 +9,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,23 +22,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import system.bean.Brand;
-import system.dao.BrandDao;
+import system.bean.Category;
+import system.dao.CategoryDao;
 
 /**
  *
- * @author MacMuffin
+ * @author Muffin
  */
 @WebServlet(
-		name = "BrandController",
-		urlPatterns = {"/brand.create", "/brand.get", "/brand.getAll", "/brand.update", "/brand.delete"}
+		name = "CategoryController",
+		urlPatterns = {"/category.create", "/category.get", "/category.getAll", "/category.update", "/category.delete"}
 )
-public class BrandController extends HttpServlet {
+public class CategoryController extends HttpServlet {
 
 	@Resource(name = "jdbc/inventory")
 	private DataSource datasource;
 	private Connection con;
-	
+
 	private static final Gson GSON = new Gson();
 
 	public void init() throws ServletException {
@@ -66,24 +63,24 @@ public class BrandController extends HttpServlet {
 			throws ServletException, IOException {
 		response.setHeader("Content-Type", "application/json");
 		Map result = new HashMap();
-		
+
 		try (PrintWriter out = response.getWriter()) {
 
 			switch (request.getServletPath()) {
-				case "/brand.create":
-					this.createBrand(con, result, request);
+				case "/category.create":
+					this.createCategory(con, result, request);
 					break;
-				case "/brand.get":
-					this.getBrand(con, result, request);
+				case "/category.get":
+					this.getCategory(con, result, request);
 					break;
-				case "/brand.getAll":
-					this.getAllBrand(con, result);
+				case "/category.getAll":
+					this.getAllCategory(con, result);
 					break;
-				case "/brand.update":
-					this.updateBrand(con, result, request);
+				case "/category.update":
+					this.updateCategory(con, result, request);
 					break;
-				case "/brand.delete":
-					this.deleteBrand(con, result, request);
+				case "/category.delete":
+					this.deleteCategory(con, result, request);
 					break;
 				default:
 					break;
@@ -91,7 +88,7 @@ public class BrandController extends HttpServlet {
 
 			out.println(GSON.toJson(result));
 		} catch (SQLException ex) {
-			Logger.getLogger(BrandController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(CategoryController.class.getName()).log(Level.SEVERE, null, ex);
 			result.put("status", ex.getErrorCode());
 			result.put("response", ex.getMessage());
 		} catch (Exception ex) {
@@ -99,37 +96,38 @@ public class BrandController extends HttpServlet {
 			result.put("response", ex.getMessage());
 		}
 	}
-
-	private void createBrand(Connection con, Map result, HttpServletRequest request) throws SQLException {
-		Brand brand = new Brand(request);
-		BrandDao.create(con, brand);
+	
+	private void createCategory(Connection con, Map result, HttpServletRequest request) throws SQLException {
+		System.out.println("createCategory");
+		Category brand = new Category(request);
+		CategoryDao.create(con, brand);
 		result.put("data", brand);
 		result.put("status", 0);
 		result.put("response", "Creation successful!");
 	}
 
-	private void getBrand(Connection con, Map result, HttpServletRequest request) {
+	private void getCategory(Connection con, Map result, HttpServletRequest request) {
 
 	}
 
-	private void getAllBrand(Connection con, Map result) throws SQLException {
-		List<Brand> brands = BrandDao.getAll(con);
+	private void getAllCategory(Connection con, Map result) throws SQLException {
+		List<Category> brands = CategoryDao.getAll(con);
 		result.put("data", brands);
 		result.put("status", 0);
 		result.put("response", "Query successful!");
 	}
 
-	private void updateBrand(Connection con, Map result, HttpServletRequest request) throws SQLException {
-		Brand brand = new Brand(request);
-		BrandDao.update(con, brand);
+	private void updateCategory(Connection con, Map result, HttpServletRequest request) throws SQLException {
+		Category brand = new Category(request);
+		CategoryDao.update(con, brand);
 		result.put("data", brand);
 		result.put("status", 0);
 		result.put("response", "Update successful!");
 	}
 
-	private void deleteBrand(Connection con, Map result, HttpServletRequest request) throws SQLException{
+	private void deleteCategory(Connection con, Map result, HttpServletRequest request) throws SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		BrandDao.delete(con, id);
+		CategoryDao.delete(con, id);
 		result.put("status", 0);
 		result.put("response", "Delete successful!");
 	}

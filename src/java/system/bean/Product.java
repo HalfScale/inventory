@@ -19,7 +19,8 @@ public class Product {
    private String code;
    private String description;
    private BigDecimal price;
-   private String resellerPrice;
+   private BigDecimal resellerPrice;
+   private int stock;
    private boolean status;
 
    public int getId() {
@@ -78,15 +79,23 @@ public class Product {
       this.price = price;
    }
 
-   public String getResellerPrice() {
-      return resellerPrice;
-   }
+	public BigDecimal getResellerPrice() {
+		return resellerPrice;
+	}
 
-   public void setResellerPrice(String resellerPrice) {
-      this.resellerPrice = resellerPrice;
-   }
+	public void setResellerPrice(BigDecimal resellerPrice) {
+		this.resellerPrice = resellerPrice;
+	}
 
-   public boolean isStatus() {
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+	
+   public boolean getStatus() {
       return status;
    }
 

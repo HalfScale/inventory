@@ -5,38 +5,49 @@
  */
 package system.bean;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * @author MacMuffin
  */
 public class Category {
-   private int id;
-   private String name;
-   private boolean status;
 
-   public int getId() {
-      return id;
-   }
+	private int id;
+	private String name;
+	private boolean status;
 
-   public void setId(int id) {
-      this.id = id;
-   }
+	public Category() {
+	}
 
-   public String getName() {
-      return name;
-   }
+	public Category(HttpServletRequest request) {
+		this.id = Integer.parseInt(request.getParameter("id") != null ? request.getParameter("id") : "-1");
+		this.name = request.getParameter("name");
+		this.status = request.getParameter("status").equals("1");
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	public int getId() {
+		return id;
+	}
 
-   public boolean isStatus() {
-      return status;
-   }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-   public void setStatus(boolean status) {
-      this.status = status;
-   }
-   
-   
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
 }

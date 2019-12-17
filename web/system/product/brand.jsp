@@ -12,7 +12,7 @@
 
     <jsp:body>
 		<!--Button section-->
-        <div class="bttn-section-top">
+		<div class="bttn-section-top">
             <button id="brandAddBttn" type="button" class="btn btn-outline-dark">Add Brand</button>
         </div>
 
@@ -26,9 +26,10 @@
                     <th scope="col">Action</th>
                 </tr>
             </thead>
-<!--            <tbody>
-				
-            </tbody>-->
+
+			<tbody>
+
+			</tbody>
         </table>
 
 		<!--Modal-->
@@ -56,7 +57,7 @@
 									<option value="0">Inactive</option>
 								</select>
 							</div>
-							
+
 							<input type="submit" class="dummy-submit">
 						</form>
 					</div>
@@ -68,7 +69,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="brandUpdateModal" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -84,10 +85,12 @@
 							<div class="hidden-widget">
 								<input type="text" class="id" name="id">
 							</div>
+							
 							<div class="form-group">
 								<label for="">Name</label>
 								<input type="text" class="name form-control" name="name" required>
 							</div>
+							
 							<div class="form-group">
 								<label for="">Status</label>
 								<select class="status custom-select" name="status" required>
@@ -108,7 +111,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="brandDeleteModal" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -121,11 +124,18 @@
 
 					<div class="modal-body">
 						<span>Do you really want to delete this entry?</span>
+						<form>
+							<div class="hidden-widget">
+								<input type="text" class="id" name="id">
+							</div>
+
+							<input type="submit" class="dummy-submit">
+						</form>
 					</div>
 
 					<div class="modal-footer">
 						<button id="brandDeleteClose" class="btn btn-secondary" type="button" data-dismiss="modal">close</button>
-						<button id="brandDeleteeSave" class="btn btn-primary" type="button">Confirm</button>
+						<button id="brandDeleteSave" class="btn btn-primary" type="button">Confirm</button>
 					</div>
 				</div>
 			</div>

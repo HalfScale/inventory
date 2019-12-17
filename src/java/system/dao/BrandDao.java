@@ -26,9 +26,9 @@ public class BrandDao {
    private static final String SQL_GET_BRAND_BY_ID = "select * from `brand` where id = ?";
    private static final String SQL_GET_ALL_BRAND = "select * from `brand`";
    private static final String SQL_UPDATE_BRAND = "update `brand` set name = ?, status = ? where id = ?";
-   private static final String SQL_DELETE_PRODUCT = "delete from `brand` where id = ?";
+   private static final String SQL_DELETE_BRAND = "delete from `brand` where id = ?";
 
-   public static void createBrand(Connection con, Brand brand) throws SQLException {
+   public static void create(Connection con, Brand brand) throws SQLException {
       try (PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_BRAND, Statement.RETURN_GENERATED_KEYS)) {
          pstmt.setString(1, brand.getName());
          pstmt.setBoolean(2, brand.getStatus());
@@ -42,7 +42,7 @@ public class BrandDao {
       }
    }
    
-   public static Brand getBrandById(Connection con, int id) throws SQLException {
+   public static Brand getById(Connection con, int id) throws SQLException {
       Brand brand = new Brand();
       try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_BRAND_BY_ID)) {
          pstmt.setInt(1, id);
@@ -57,7 +57,7 @@ public class BrandDao {
       return brand;
    }
    
-   public static List<Brand> getAllBrands(Connection con) throws SQLException {
+   public static List<Brand> getAll(Connection con) throws SQLException {
       List<Brand> brands = new ArrayList<>();
       try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_ALL_BRAND);
               ResultSet rs = pstmt.executeQuery()) {
@@ -74,16 +74,17 @@ public class BrandDao {
       return brands;
    }
    
-   public static void updateBrand(Connection con, Brand brand) throws SQLException {
+   public static void update(Connection con, Brand brand) throws SQLException {
       try (PreparedStatement pstmt = con.prepareStatement(SQL_UPDATE_BRAND)) {
          pstmt.setString(1, brand.getName());
          pstmt.setBoolean(2, brand.getStatus());
          pstmt.setInt(3, brand.getId());
+		 pstmt.executeUpdate();
       }
    }
    
-   public static void deleteBrand(Connection con, int id) throws SQLException {
-      try (PreparedStatement pstmt = con.prepareStatement(SQL_DELETE_PRODUCT)) {
+   public static void delete(Connection con, int id) throws SQLException {
+      try (PreparedStatement pstmt = con.prepareStatement(SQL_DELETE_BRAND)) {
          pstmt.setInt(1, id);
          pstmt.executeUpdate();
       }

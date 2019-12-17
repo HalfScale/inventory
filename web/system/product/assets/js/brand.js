@@ -3,46 +3,71 @@ $(function () {
 			brandUpdateModal = $('#brandUpdateModal'),
 			brandDeleteModal = $('#brandDeleteModal'),
 			brandTable = $('#brandTable'),
-			brandAddBttn = $('#brandAddBttn'),
-			brandAddSave = $('#brandAddSave'),
-			brandCloseClose = $('#brandAddClose'),
-			brandUpdateSave = $('#brandUpdateSave'),
-			brandUpdateClose = $('#brandUpdateClose');
+			brandAddBtn = $('#brandAddBttn'),
+			brandAddSaveBtn = $('#brandAddSave'),
+			brandUpdateSaveBtn = $('#brandUpdateSave'),
+			brandDeleteSaveBtn = $('#brandDeleteSave');
 
-	brandAddBttn.on('click', function () {
+	brandAddBtn.on('click', function () {
 		brandAddModal.find('form').trigger('reset');
 		brandAddModal.modal('show');
 	});
 
-	brandAddSave.on('click', function () {
+	brandAddSaveBtn.on('click', function () {
 		brandAddModal.find('form .dummy-submit').click();
 	});
-	
-	brandUpdateSave.on('click', function () {
+
+	brandUpdateSaveBtn.on('click', function () {
 		brandUpdateModal.find('form .dummy-submit').click();
+	});
+
+	brandDeleteSaveBtn.on('click', function () {
+		brandDeleteModal.find('form .dummy-submit').click();
+		console.log('form', brandDeleteModal.find('form .dummy-submit'));
 	});
 
 	brandAddModal.find('form').on('submit', function (e) {
 		e.preventDefault();
 		var fd = $(this).serializeForm();
-//		console.log('fd before submit', fd);
 		$.post($g.root_path + 'brand.create', fd).done(function (result) {
-//			console.log('result', result);
+			console.log('result', result);
 			brandTable.DataTable().ajax.reload();
 			brandAddModal.modal('hide');
+			sysAlert({
+				text: result.response,
+				delay: 2000
+			});
 
 		});
 	});
-	
+
 	brandUpdateModal.find('form').on('submit', function (e) {
 		e.preventDefault();
 		var fd = $(this).serializeForm();
-		
 		$.post($g.root_path + 'brand.update', fd).done(function (result) {
 //			console.log('result', result);
 			brandTable.DataTable().ajax.reload();
-			brandAddModal.modal('hide');
+			brandUpdateModal.modal('hide');
+			sysAlert({
+				text: result.response,
+				delay: 2000
+			});
 
+		});
+	});
+
+	brandDeleteModal.find('form').on('submit', function (e) {
+		console.log('submitting');
+		e.preventDefault();
+		var fd = $(this).serializeForm();
+		$.post($g.root_path + 'brand.delete', fd).done(function (result) {
+//			console.log('result', result);
+			brandTable.DataTable().ajax.reload();
+			brandDeleteModal.modal('hide');
+			sysAlert({
+				text: result.response,
+				delay: 2000
+			});
 		});
 	});
 
@@ -59,7 +84,7 @@ $(function () {
 				data: null,
 				render: function () {
 					return '<button type="button" class="brandEditBtn btn btn-outline-warning btn-sm">' + 'Edit' + '</button>' +
-							'<button type="button" class="branDeleteBtn btn btn-outline-danger btn-sm">' + 'Delete' + '</button>';
+							'<button type="button" class="brandDeleteBtn btn btn-outline-danger btn-sm">' + 'Delete' + '</button>';
 				}
 			}
 		],
@@ -81,15 +106,18 @@ $(function () {
 				}
 			}
 		});
-		
+
 		brandUpdateModal.trigger('reset');
 		brandUpdateModal.modal('show');
 	});
-	
-	brandTable.on('click', '.branDeleteBtn', function () {
+
+	brandTable.on('click', '.brandDeleteBtn', function () {
 		var data = $(this).parents('tr').data('brand.row.data');
-		
+
+		brandDeleteModal.find('form').fillForm({
+			source: data
+		});
+
 		brandDeleteModal.modal('show');
 	});
-
 });
