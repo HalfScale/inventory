@@ -105,19 +105,19 @@ $(function () {
 
 	categoryTable.on('click', '.categoryDeleteBtn', function () {
 		selectedCategory = $(this).parents('tr').data('category.row.data');
-		categoryDeleteModal.modal('show');
-	});
-
-	sysConfirm({
-		ok: function (modal) {
-			$.post($g.root_path + 'category.delete', selectedCategory).done(function (result) {
-				categoryTable.DataTable().ajax.reload();
-				modal.modal('hide');
-				sysAlert({
-					text: result.response,
-					delay: 2000
+		sysConfirm({
+			title: 'Delete Category',
+			text: 'Are you sure you want to delete this entry?',
+			ok: function (modal) {
+				$.post($g.root_path + 'category.delete', selectedCategory).done(function (result) {
+					categoryTable.DataTable().ajax.reload();
+					modal.modal('hide');
+					sysAlert({
+						text: result.response,
+						delay: 2000
+					});
 				});
-			});
-		}
+			}
+		});
 	});
 });

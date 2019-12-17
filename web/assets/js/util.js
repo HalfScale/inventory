@@ -186,7 +186,7 @@ function sysConfirm(args) {
 				{
 					el: '<span>',
 					attr: {
-						text: _args.title
+						text: _args.text
 					}
 				}
 			]
