@@ -75,29 +75,6 @@ $(function () {
 		}
 	});
 
-	var categoryDeleteModal = $('#categoryDeleteModal').standardDialog({
-		title: 'Delete Category',
-		onOpen: function () {
-//			console.log('open', $(this));
-			if (selectedCategory) {
-				categoryUpdateModal.find('form').fillForm({
-					source: selectedCategory,
-					filter: function (key, val, elem) {
-						if (key === 'status') {
-							elem.val(val ? 1 : 0);
-						}
-					}
-				});
-			}
-		},
-		ajax: function (fd) {
-			return $.post($g.root_path + 'category.delete', fd);
-		},
-		done: function (result, modal) {
-
-		}
-	});
-
 	categoryTable.on('click', '.categoryEditBtn', function () {
 		selectedCategory = $(this).parents('tr').data('category.row.data');
 		categoryUpdateModal.modal('show');
