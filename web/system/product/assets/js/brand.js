@@ -120,14 +120,4 @@ $(function () {
 
 		brandDeleteModal.modal('show');
 	});
-	
-	$('#myToast').toast({
-		animation: true,
-		delay: 3000
-	});
-	$('#testBttn').on('click', function () {
-		$('#myToast').toast('show');
-	});
-	
-	
 });

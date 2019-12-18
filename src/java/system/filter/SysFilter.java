@@ -113,9 +113,9 @@ public class SysFilter implements Filter {
             HttpServletRequest req = (HttpServletRequest) request;
             String contextPath = req.getContextPath() + '/';
             String rootPath = Util.getRootRelativePath(req);
-            System.out.println("contextPath = " + contextPath);
-            System.out.println("rootPath = " + rootPath);
-            System.out.println("full path = " + contextPath + rootPath);
+//            System.out.println("contextPath = " + contextPath);
+//            System.out.println("rootPath = " + rootPath);
+//            System.out.println("full path = " + contextPath + rootPath);
             request.setAttribute("root_path", rootPath);
             
             chain.doFilter(request, response);

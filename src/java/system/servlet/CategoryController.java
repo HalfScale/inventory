@@ -46,7 +46,7 @@ public class CategoryController extends HttpServlet {
 		try {
 			con = datasource.getConnection();
 		} catch (SQLException ex) {
-			Logger.getLogger(WebLogin.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(CategoryController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 
@@ -99,9 +99,9 @@ public class CategoryController extends HttpServlet {
 	
 	private void createCategory(Connection con, Map result, HttpServletRequest request) throws SQLException {
 		System.out.println("createCategory");
-		Category brand = new Category(request);
-		CategoryDao.create(con, brand);
-		result.put("data", brand);
+		Category category = new Category(request);
+		CategoryDao.create(con, category);
+		result.put("data", category);
 		result.put("status", 0);
 		result.put("response", "Creation successful!");
 	}
@@ -111,16 +111,16 @@ public class CategoryController extends HttpServlet {
 	}
 
 	private void getAllCategory(Connection con, Map result) throws SQLException {
-		List<Category> brands = CategoryDao.getAll(con);
-		result.put("data", brands);
+		List<Category> categories = CategoryDao.getAll(con);
+		result.put("data", categories);
 		result.put("status", 0);
 		result.put("response", "Query successful!");
 	}
 
 	private void updateCategory(Connection con, Map result, HttpServletRequest request) throws SQLException {
-		Category brand = new Category(request);
-		CategoryDao.update(con, brand);
-		result.put("data", brand);
+		Category category = new Category(request);
+		CategoryDao.update(con, category);
+		result.put("data", category);
 		result.put("status", 0);
 		result.put("response", "Update successful!");
 	}

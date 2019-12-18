@@ -9,10 +9,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,22 +23,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import system.bean.Brand;
+import system.bean.Category;
+import system.bean.Product;
 import system.dao.BrandDao;
+import system.dao.CategoryDao;
+import system.dao.ProductDao;
 
 /**
  *
- * @author MacMuffin
+ * @author Muffin
  */
 @WebServlet(
-		name = "BrandController",
-		urlPatterns = {"/brand.create", "/brand.get", "/brand.getAll", "/brand.update", "/brand.delete"}
+		name = "ProductController",
+		urlPatterns = {"/product.create", "/product.get", "/product.getAll", "/product.update", "/product.delete"}
 )
-public class BrandController extends HttpServlet {
+public class ProductController extends HttpServlet {
 
 	@Resource(name = "jdbc/inventory")
 	private DataSource datasource;
 	private Connection con;
-	
+
 	private static final Gson GSON = new Gson();
 
 	public void init() throws ServletException {
@@ -49,7 +50,7 @@ public class BrandController extends HttpServlet {
 		try {
 			con = datasource.getConnection();
 		} catch (SQLException ex) {
-			Logger.getLogger(BrandController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 
@@ -66,32 +67,33 @@ public class BrandController extends HttpServlet {
 			throws ServletException, IOException {
 		response.setHeader("Content-Type", "application/json");
 		Map result = new HashMap();
-		
+
 		try (PrintWriter out = response.getWriter()) {
 
 			switch (request.getServletPath()) {
-				case "/brand.create":
-					this.createBrand(con, result, request);
+				case "/product.create":
+					this.createProduct(con, result, request);
 					break;
-				case "/brand.get":
-					this.getBrand(con, result, request);
+				case "/product.get":
+					this.getProduct(con, result, request);
 					break;
-				case "/brand.getAll":
-					this.getAllBrand(con, result);
+				case "/product.getAll":
+					this.getAllProduct(con, result);
 					break;
-				case "/brand.update":
-					this.updateBrand(con, result, request);
+				case "/product.update":
+					this.updateProduct(con, result, request);
 					break;
-				case "/brand.delete":
-					this.deleteBrand(con, result, request);
+				case "/product.delete":
+					this.deleteProduct(con, result, request);
 					break;
 				default:
 					break;
 			}
-
+			
+			result.put("status", 0);
 			out.println(GSON.toJson(result));
 		} catch (SQLException ex) {
-			Logger.getLogger(BrandController.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
 			result.put("status", ex.getErrorCode());
 			result.put("response", ex.getMessage());
 		} catch (Exception ex) {
@@ -100,37 +102,43 @@ public class BrandController extends HttpServlet {
 		}
 	}
 
-	private void createBrand(Connection con, Map result, HttpServletRequest request) throws SQLException {
-		Brand brand = new Brand(request);
-		BrandDao.create(con, brand);
-		result.put("data", brand);
-		result.put("status", 0);
+	private void createProduct(Connection con, Map result, HttpServletRequest request) throws SQLException {
+		Brand brand = BrandDao.getById(con, Integer.parseInt(request.getParameter("brand")));
+		Category category = CategoryDao.getById(con, Integer.parseInt(request.getParameter("category")));
+
+		Product product = new Product(request, con);
+		product.setBrand(brand);
+		product.setCategory(category);
+		ProductDao.create(con, product);
+		result.put("data", product);
 		result.put("response", "Creation successful!");
 	}
 
-	private void getBrand(Connection con, Map result, HttpServletRequest request) {
+	private void getProduct(Connection con, Map result, HttpServletRequest request) {
 
 	}
 
-	private void getAllBrand(Connection con, Map result) throws SQLException {
-		List<Brand> brands = BrandDao.getAll(con);
-		result.put("data", brands);
-		result.put("status", 0);
+	private void getAllProduct(Connection con, Map result) throws SQLException {
+		List<Product> products = ProductDao.getAll(con);
+		result.put("data", products);
 		result.put("response", "Query successful!");
 	}
 
-	private void updateBrand(Connection con, Map result, HttpServletRequest request) throws SQLException {
-		Brand brand = new Brand(request);
-		BrandDao.update(con, brand);
-		result.put("data", brand);
-		result.put("status", 0);
+	private void updateProduct(Connection con, Map result, HttpServletRequest request) throws SQLException {
+		Brand brand = BrandDao.getById(con, Integer.parseInt(request.getParameter("brand")));
+		Category category = CategoryDao.getById(con, Integer.parseInt(request.getParameter("category")));
+
+		Product product = new Product(request, con);
+		product.setBrand(brand);
+		product.setCategory(category);
+		ProductDao.update(con, product);
+		result.put("data", product);
 		result.put("response", "Update successful!");
 	}
 
-	private void deleteBrand(Connection con, Map result, HttpServletRequest request) throws SQLException{
+	private void deleteProduct(Connection con, Map result, HttpServletRequest request) throws SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		BrandDao.delete(con, id);
-		result.put("status", 0);
+		ProductDao.delete(con, id);
 		result.put("response", "Delete successful!");
 	}
 
