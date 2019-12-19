@@ -60,6 +60,27 @@
 	};
 }(jQuery));
 
+(function ($) {
+	$.fn.createOption = function (val, text, selected, disabled) {
+		return this.each(function () {
+			$('<option>', {
+				text: text,
+				value: val,
+				selected: selected ? true : false,
+				disabled: disabled ? true : false
+			}).appendTo(this);
+		});
+	};
+}(jQuery));
+
+(function ($) {
+	$.fn.clearOptions = function (defaultOption) {
+		return this.each(function () {
+			$(this).empty().createOption('', defaultOption, true, true);
+		});
+	};
+}(jQuery));
+
 function sysAlert(args) {
 	'use strict';
 
@@ -120,6 +141,8 @@ function sysAlert(args) {
 }
 
 function sysConfirm(args) {
+	'use strict';
+	
 	var _args = $.extend({
 		title: 'Confirm',
 		text: 'Do you want to confirm this action?',

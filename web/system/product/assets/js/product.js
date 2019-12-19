@@ -42,6 +42,10 @@ $(function () {
 				text: result.response,
 				delay: 2000
 			});
+		},
+		onClose : function() {
+			getAllBrands();
+			getAllCategories();
 		}
 	});
 	
@@ -74,6 +78,10 @@ $(function () {
 				text: result.response,
 				delay: 2000
 			});
+		},
+		onClose : function() {
+			getAllBrands();
+			getAllCategories();
 		}
 	});
 
@@ -86,20 +94,36 @@ $(function () {
 		console.log('selectedProduct', selectedProduct);
 		productUpdateModal.modal('show');
 	});
+	
+	productTable.on('click', '.productDeleteBtn', function () {
+		selectedProduct = $(this).parents('tr').data('product.row.data');
+		sysConfirm({
+			title: 'Delete Product',
+			text: 'Do you really want to delete this entry?',
+			ok: function (modal) {
+				$.post($g.root_path + 'product.delete', selectedProduct).done(function (result) {
+					productTable.DataTable().ajax.reload();
+					modal.modal('hide');
+					sysAlert({
+						text: result.response,
+						delay: 2000
+					});
+				});
+			}
+		});
+	});
 
 	getAllBrands();
 	getAllCategories();
-
+	
 	function getAllBrands() {
 		var brandElem = $('.brand');
 
 		$.get($g.root_path + 'brand.getAll').done(function (result) {
-			console.log('getAllBrands', result);
+//			console.log('getAllBrands', result);
+			brandElem.clearOptions('Select a brand');
 			result.data.forEach(function (brand) {
-				$('<option>', {
-					value: brand.id
-				}).text(brand.name)
-						.appendTo(brandElem);
+				brandElem.createOption(brand.id, brand.name);
 			});
 		});
 	}
@@ -108,12 +132,10 @@ $(function () {
 		var categoryElem = $('.category');
 
 		$.get($g.root_path + 'category.getAll').done(function (result) {
-			console.log('getAllCategories', result);
+//			console.log('getAllCategories', result);
+			categoryElem.clearOptions('Select a category');
 			result.data.forEach(function (category) {
-				$('<option>', {
-					value: category.id
-				}).text(category.name)
-						.appendTo(categoryElem);
+				categoryElem.createOption(category.id, category.name);
 			});
 		});
 	}
