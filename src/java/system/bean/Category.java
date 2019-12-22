@@ -6,6 +6,7 @@
 package system.bean;
 
 import javax.servlet.http.HttpServletRequest;
+import system.util.Util;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Category {
 	}
 
 	public Category(HttpServletRequest request) {
-		this.id = Integer.parseInt(request.getParameter("id") != null ? request.getParameter("id") : "-1");
+		this.id = Integer.parseInt(Util.isBlank(request.getParameter("id"), "-1"));
 		this.name = request.getParameter("name");
 		this.status = request.getParameter("status").equals("1");
 	}

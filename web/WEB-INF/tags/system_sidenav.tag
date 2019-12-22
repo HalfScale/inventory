@@ -42,6 +42,9 @@
                 <a href="/Inventory/system/product/category.jsp">Category</a>
             </li>
             <li>
+                <a href="/Inventory/system/product/category.jsp">Category</a>
+            </li>
+            <li>
                 <a href="#transacMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transaction</a>
                 <ul class="collapse list-unstyled" id="transacMenu">
                     <li>

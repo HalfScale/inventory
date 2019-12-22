@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import javax.servlet.http.HttpServletRequest;
 import system.dao.BrandDao;
+import system.util.Util;
 
 /**
  *
@@ -31,7 +32,7 @@ public class Product {
 	}
 
 	public Product(HttpServletRequest request, Connection con) {
-		this.id = Integer.parseInt(request.getParameter("id") != null ? request.getParameter("id") : "-1");
+		this.id = Integer.parseInt(Util.isBlank(request.getParameter("id"), "-1"));
 		this.name = request.getParameter("name");
 		this.code = request.getParameter("code");
 		this.description = request.getParameter("description");
