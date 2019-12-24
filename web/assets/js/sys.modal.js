@@ -3,9 +3,11 @@
 		var _args = $.extend({
 			title: 'Dialog',
 			onOpen: null,
+			onClose: null,
 			ajax: null,
 			done: null,
-			formReset: true
+			formReset: true,
+			scrollable: false
 		}, args);
 
 		var $this = $(this).attr({
@@ -20,6 +22,10 @@
 			class: 'modal-dialog',
 			role: 'document'
 		});
+
+		if (_args.scrollable) {
+			dialog.addClass('modal-dialog-scrollable');
+		}
 
 		var content = $('<div>', {
 			class: 'modal-content'
@@ -105,10 +111,22 @@
 
 		content.appendTo(dialog);
 		dialog.appendTo($this);
-		
+
 		if ($.isFunction(_args.onOpen)) {
 			$this.on('show.bs.modal', function () {
 				_args.onOpen();
+			});
+		}
+
+		if (_args.formReset) {
+			$this.on('hidden.bs.modal', function () {
+				$(this).find('form').trigger('reset');
+			});
+		}
+
+		if ($.isFunction(_args.onClose)) {
+			$this.on('hidden.bs.modal', function () {
+				_args.onClose();
 			});
 		}
 
@@ -129,13 +147,6 @@
 			});
 		});
 		
-		if (_args.formReset) {
-			$this.on('hidden.bs.modal', function () {
-				$(this).find('form').trigger('reset');
-			});
-		}
-
-
 		return $this;
 	};
 }(jQuery));

@@ -76,25 +76,5 @@
 				<input type="submit" class="dummy-submit">
 			</form>
 		</div>
-
-		<div id="categoryDeleteModal">
-			<form>
-				<div class="form-group">
-					<label for="">Name</label>
-					<input type="text" class="name form-control" name="name" required>
-				</div>
-
-				<div class="form-group">
-					<label for="">Status</label>
-					<select class="status custom-select" name="status" required>
-						<option selected disabled>Select status</option>
-						<option value="1">Active</option>
-						<option value="0">Inactive</option>
-					</select>
-				</div>
-
-				<input type="submit" class="dummy-submit">
-			</form>
-		</div>
     </jsp:body>
 </t:system_page>

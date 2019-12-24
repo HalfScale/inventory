@@ -19,12 +19,13 @@ import system.bean.Category;
  * @author Muffin
  */
 public class CategoryDao {
+
 	private static final String SQL_CREATE_CATEGORY = "insert into `category` (name, status) VALUES (?, ?)";
 	private static final String SQL_GET_CATEGORY_BY_ID = "select * from `category` where id = ?";
 	private static final String SQL_GET_ALL_CATEGORY = "select * from `category`";
 	private static final String SQL_UPDATE_CATEGORY = "update `category` set name = ?, status = ? where id = ?";
 	private static final String SQL_DELETE_CATEGORY = "delete from `category` where id = ?";
-	
+
 	public static void create(Connection con, Category category) throws SQLException {
 		try (PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_CATEGORY, Statement.RETURN_GENERATED_KEYS)) {
 			pstmt.setString(1, category.getName());
@@ -45,9 +46,11 @@ public class CategoryDao {
 			pstmt.setInt(1, id);
 
 			try (ResultSet rs = pstmt.executeQuery()) {
-				category.setId(rs.getInt(1));
-				category.setName(rs.getString(2));
-				category.setStatus(rs.getBoolean(3));
+				if (rs.next()) {
+					category.setId(rs.getInt(1));
+					category.setName(rs.getString(2));
+					category.setStatus(rs.getBoolean(3));
+				}
 			}
 		}
 
@@ -60,10 +63,7 @@ public class CategoryDao {
 				ResultSet rs = pstmt.executeQuery()) {
 
 			while (rs.next()) {
-				Category category = new Category();
-				category.setId(rs.getInt(1));
-				category.setName(rs.getString(2));
-				category.setStatus(rs.getBoolean(3));
+				Category category = CategoryDao.getById(con, rs.getInt(1));
 				categories.add(category);
 			}
 		}

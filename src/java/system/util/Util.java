@@ -23,4 +23,8 @@ public class Util {
         }
         return sb.toString();
     }
+	
+	public static String isBlank(String cs, String fallBack) {
+		return StringUtils.isBlank(cs) ? fallBack : cs;
+	}
 }
