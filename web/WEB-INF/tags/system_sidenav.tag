@@ -42,7 +42,7 @@
                 <a href="/Inventory/system/product/category.jsp">Category</a>
             </li>
             <li>
-                <a href="/Inventory/system/product/category.jsp">Category</a>
+                <a href="/Inventory/system/pos/">POS</a>
             </li>
             <li>
                 <a href="#transacMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transaction</a>
