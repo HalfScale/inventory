@@ -1,0 +1,36 @@
+#pos-checkout{
+    height: 500px;
+}
+
+#pos-checkout-header{
+    padding: 5px;
+}
+
+#pos-checkout-title > *{
+    margin: 5px;
+}
+
+.name-header{
+    flex-grow: 2;
+}
+
+#pos-checkout-content{
+    margin: 3px;
+}
+
+.w-35{
+    width: 35%;
+}
+
+.w-65{
+    width: 65%;
+}
+
+.wem-4{
+    width: 4em;
+}
+
+#pos-checkout-footer{
+    bottom: 0;
+    left: 0;
+}
