@@ -19,11 +19,11 @@ import system.bean.TransactionType;
 public class TransactionTypeDao {
    
    private static final String SQL_GET_ALL_TRANSACTION_TYPE = "select * from `transaction_type`";
-   private static final String SQL_GET_BRAND_BY_ID = "select * from `transaction_type` where id = ?";
+   private static final String SQL_GET_TRANSACTION_TYPE_BY_ID = "select * from `transaction_type` where id = ?";
    
    public static TransactionType getById(Connection con, int id) throws SQLException {
       TransactionType transactionType = new TransactionType();
-      try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_BRAND_BY_ID)) {
+      try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_TRANSACTION_TYPE_BY_ID)) {
          pstmt.setInt(1, id);
 
          try (ResultSet rs = pstmt.executeQuery()) {
@@ -38,17 +38,17 @@ public class TransactionTypeDao {
    }
    
    public static List<TransactionType> getAll(Connection con) throws SQLException {
-      List<TransactionType> brands = new ArrayList<>();
+      List<TransactionType> transactionTypes = new ArrayList<>();
       try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_ALL_TRANSACTION_TYPE);
               ResultSet rs = pstmt.executeQuery()) {
 
          while (rs.next()) {
-            TransactionType brand = TransactionTypeDao.getById(con, rs.getInt(1));
-            brands.add(brand);
+            TransactionType transactionType = TransactionTypeDao.getById(con, rs.getInt(1));
+            transactionTypes.add(transactionType);
          }
       }
 
-      return brands;
+      return transactionTypes;
    }
    
 }
