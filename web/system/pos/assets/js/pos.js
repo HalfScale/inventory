@@ -38,17 +38,21 @@ $(function () {
             sysConfirm({
                 title: 'Type of price',
                 text: 'Is a reseller price?',
+                okText: 'Yes',
                 ok: function (modal) {
                     createCheckOutRow(data, true).appendTo(tbody);
-                    checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2));
+                    checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2).commafy());
                     modal.modal('hide');
                 },
-                okText: 'Yes',
+                cancelText: 'No',
                 cancel: function () {
                     createCheckOutRow(data, false).appendTo(tbody);
-                    checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2));
+                    checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2).commafy());
                 },
-                cancelText: 'No'
+				close: function() {
+					console.log('close method invoked!');
+					removeProductEntry(data.id);
+				}
             });
         }
 
@@ -57,13 +61,16 @@ $(function () {
     posCheckoutDialog.standardDialog({
         title: 'Checkout Transaction',
         onOpen: function() {
-            posCheckoutDialog.find('.total').val(computeCheckoutTotal().toFixed(2));
+            posCheckoutDialog.find('.total').val(computeCheckoutTotal().toFixed(2).commafy());
         },
-        ajax: function(fd, form) {
+		onClose: function() {
+			getTransactionTypes();
+		},
+        ajax: function(fd) {
             var product = [];
             checkOutTable.find('tbody').children().each(function () {
                 var item = $(this).data('checkout.item.data');
-                var quantity = $(this).find('input').val();
+                var quantity = $(this).find('.checkout-row-quantity').val();
                 var isReseller = $(this).data('reseller.data');
                 
                 product.push({
@@ -74,9 +81,19 @@ $(function () {
             });
             
             fd['products'] = JSON.stringify(product);
-            console.log('posCheckoutDialog fd', fd);
+//            console.log('posCheckoutDialog fd', fd);
             return $.post($g.root_path + 'product.checkout', fd);
-        }
+        },
+		done: function(result, modal) {
+			posProductTable.DataTable().ajax.reload();
+			checkOutTable.find('tbody').empty();
+			checkoutTotal.text('Total: 0.00');
+			modal.modal('hide');
+			sysAlert({
+				text: result.response,
+				delay: 2000
+			});
+		}
     });
     
     checkOutBttn.on('click', function () {
@@ -105,20 +122,23 @@ $(function () {
             {
                 el: '<span>',
                 attr: {
-                    text: data.name
+                    text: data.name,
+					class: 'checkout-row-name'
                 }
             },
             {
                 el: '<input>',
                 attr: {
+					max: data.stock,
                     type: 'number',
-                    class: 'wem-4'
+                    class: 'checkout-row-quantity wem-4'
                 }
             },
             {
                 el: '<span>',
                 attr: {
-                    text: isReseller ? data.resellerPrice : data.price
+                    text: isReseller ? data.resellerPrice : data.price,
+					class: 'checkout-row-price'
                 }
             }
         ].forEach(function (col) {
@@ -130,13 +150,10 @@ $(function () {
                 el.on('change', function () {
                     var val = $(this).val();
                     if (val === '0') {
-                        posProductEntries.some(function (id, index) {
-                            if (data.id === id) {
-                                posProductEntries.splice(index, 1);
-                            }
-                        });
-                        row.remove();
+						removeProductEntry(data.id, row);
                     }
+					
+					checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2).commafy());
                 });
             }
 
@@ -145,19 +162,34 @@ $(function () {
 
         return row;
     }
+	
+	function removeProductEntry(targetId, elem) {
+		
+		posProductEntries.some(function (id, index) {
+			if (targetId === id) {
+				posProductEntries.splice(index, 1);
+			}
+		});
+		
+		if (elem) {
+			elem.remove();
+		}
+	}
     
     function computeCheckoutTotal() {
         var total = 0;
+		console.log('computeCheckoutTotal');
         checkOutTable.find('tbody').children().each(function () {
             var item = $(this).data('checkout.item.data');
+			var quantity = $(this).find('.checkout-row-quantity').val();
             var isReseller = $(this).data('reseller.data');
             
             console.log('item', item);
             
             if (isReseller) {
-                total += Number(item.resellerPrice);
+                total += (Number(item.resellerPrice) * quantity);
             }else {
-                total += Number(item.price);
+                total += (Number(item.price) * quantity);
             }
         });
         

@@ -62,7 +62,7 @@
                 
                 <section id="pos-checkout-footer" class="position-relative">
                     <div>
-                        <span id="checkoutTotal"></span>
+                        <span id="checkoutTotal">0.00</span>
                     </div>
                     <button id="posCheckOutBttn" class="btn btn-primary">Checkout</button>
                 </section>
