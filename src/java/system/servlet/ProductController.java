@@ -6,10 +6,14 @@
 package system.servlet;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +29,17 @@ import javax.sql.DataSource;
 import system.bean.Brand;
 import system.bean.Category;
 import system.bean.Product;
+import system.bean.ProductTransaction;
+import system.bean.ProductTransactionDetail;
+import system.bean.TransactionType;
 import system.dao.BrandDao;
 import system.dao.CategoryDao;
 import system.dao.ProductDao;
+import system.dao.ProductTransactionDao;
+import system.dao.ProductTransactionDetailDao;
+import system.dao.TransactionTypeDao;
+import system.exception.MyException;
+import system.util.Util;
 
 /**
  *
@@ -35,7 +47,7 @@ import system.dao.ProductDao;
  */
 @WebServlet(
 		name = "ProductController",
-		urlPatterns = {"/product.create", "/product.get", "/product.getAll", "/product.update", "/product.delete"}
+		urlPatterns = {"/product.create", "/product.get", "/product.getAll", "/product.update", "/product.delete", "/product.checkout"}
 )
 public class ProductController extends HttpServlet {
 
@@ -86,14 +98,19 @@ public class ProductController extends HttpServlet {
 				case "/product.delete":
 					this.deleteProduct(con, result, request);
 					break;
+				case "/product.checkout":
+					this.checkout(con, result, request);
 				default:
 					break;
 			}
-			
+
 			result.put("status", 0);
 			out.println(GSON.toJson(result));
 		} catch (SQLException ex) {
 			Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
+			result.put("status", ex.getErrorCode());
+			result.put("response", ex.getMessage());
+		} catch (MyException ex) {
 			result.put("status", ex.getErrorCode());
 			result.put("response", ex.getMessage());
 		} catch (Exception ex) {
@@ -140,6 +157,44 @@ public class ProductController extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		ProductDao.delete(con, id);
 		result.put("response", "Delete successful!");
+	}
+
+	private void checkout(Connection con, Map result, HttpServletRequest request) throws SQLException {
+		System.out.println("request products " + request.getParameter("products"));
+		int transactionTypeId = Integer.parseInt(Util.isBlank(request.getParameter("transactionType"), "-1"));
+
+		if (transactionTypeId == -1) {
+			throw new MyException("Invalid transaction type!");
+		}
+
+		TransactionType transactionType = TransactionTypeDao.getById(con, transactionTypeId);
+
+		String products = Util.isBlank(request.getParameter("products"), "[]");
+		JsonArray productArr = JsonParser.parseString(products).getAsJsonArray();
+
+		//Product transaction
+		ProductTransaction productTransaction = new ProductTransaction();
+		productTransaction.setTransactionType(transactionType);
+		productTransaction.setTimestamp(Util.toTimestamp(LocalDateTime.now()));
+		ProductTransactionDao.create(con, productTransaction);
+
+		for (JsonElement jElem : productArr) {
+			int productId = jElem.getAsJsonObject().get("productId").getAsInt();
+			Product product = ProductDao.getById(con, productId);
+
+			int quantity = jElem.getAsJsonObject().get("quantity").getAsInt();
+			boolean isReseller = jElem.getAsJsonObject().get("isReseller").getAsBoolean();
+
+			ProductTransactionDetail productTransactionDetail = new ProductTransactionDetail();
+			productTransactionDetail.setProductTransaction(productTransaction);
+			productTransactionDetail.setProduct(product);
+			productTransactionDetail.setQuantity(quantity);
+			productTransactionDetail.setIsReseller(isReseller);
+
+			ProductTransactionDetailDao.create(con, productTransactionDetail);
+		}
+
+		result.put("response", "Checkout successful!");
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

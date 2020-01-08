@@ -81,6 +81,27 @@
 	};
 }(jQuery));
 
+String.prototype.commafy = function () {
+	return commafy(this);
+};
+
+String.prototype.unCommafy = function () {
+	return this.replace(/,/g, '');
+};
+
+Number.prototype.commafy = function () {
+	return commafy(this.toString());
+};
+
+function commafy(number) {
+	'use strict';
+	var n = number.toString().split('.');
+	
+	n[0] = n[0].replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1,');
+	
+	return n.join('.');
+}
+
 function sysAlert(args) {
 	'use strict';
 
@@ -142,12 +163,15 @@ function sysAlert(args) {
 
 function sysConfirm(args) {
 	'use strict';
-	
+
 	var _args = $.extend({
 		title: 'Confirm',
 		text: 'Do you want to confirm this action?',
 		onOpen: null,
-		ok: null
+		close: null,
+		ok: null,
+		okText: 'Confirm',
+		cancelText: 'Close'
 	}, args);
 
 	var modal = $('<div>').attr({
@@ -167,12 +191,29 @@ function sysConfirm(args) {
 	var confirmBtn = $('<button>', {
 		class: 'btn btn-primary',
 		type: 'button',
-		text: 'Confirm'
+		text: _args.okText
 	}).on('click', function () {
 		if ($.isFunction(_args.ok)) {
 			_args.ok(modal);
 		}
 	});
+
+	//The default close bttn of a modal
+	var closeBtn = $('<button>', {
+		class: 'close',
+		type: 'button',
+		'data-dismiss': 'modal',
+		'aria-label': 'close'
+	}).on('click', function () {
+		if ($.isFunction(_args.close)) {
+			_args.close();
+		}
+	});
+	
+	$('<span>', {
+		'aria-hidden': true, 
+		html: '&times;'
+	}).appendTo(closeBtn);
 
 	[
 		{
@@ -183,22 +224,6 @@ function sysConfirm(args) {
 					attr: {
 						class: 'modal-title',
 						text: _args.title
-					}
-				},
-				{
-					el: '<button>',
-					attr: {
-						class: 'close',
-						type: 'button',
-						'data-dismiss': 'modal',
-						'aria-label': 'close'
-					},
-					child: {
-						el: '<span>',
-						attr: {
-							'aria-hidden': true,
-							html: '&times;'
-						}
 					}
 				}
 			]
@@ -223,7 +248,7 @@ function sysConfirm(args) {
 						class: 'btn btn-secondary',
 						type: 'button',
 						'data-dismiss': 'modal',
-						text: 'Close'
+						text: _args.cancelText
 					}
 				}
 			]
@@ -237,7 +262,21 @@ function sysConfirm(args) {
 				if (child.child) {
 					$(child.child.el, child.child.attr).appendTo(elem);
 				}
+				
 				elem.appendTo(div);
+				
+				if (section.class === 'modal-header') {
+					closeBtn.appendTo(div);
+				}
+				
+				//This is only for the cancel button of this confirm dialog
+				if (section.class === 'modal-footer') {
+					elem.on('click', function () {
+						if ($.isFunction(_args.cancel)) {
+							_args.cancel(modal);
+						}
+					});
+				}
 			});
 		}
 		if (section.class === 'modal-footer') {

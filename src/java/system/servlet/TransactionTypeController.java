@@ -9,10 +9,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,18 +22,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import system.bean.Brand;
-import system.dao.BrandDao;
+import system.bean.TransactionType;
+import system.dao.TransactionTypeDao;
 
 /**
  *
  * @author MacMuffin
  */
 @WebServlet(
-        name = "BrandController",
-        urlPatterns = {"/brand.create", "/brand.get", "/brand.getAll", "/brand.update", "/brand.delete"}
+        name = "TransactionTypeController",
+        urlPatterns = {"/transactionType.create", "/transactionType.get", "/transactionType.getAll", "/transactionType.update", "/transactionType.delete"}
 )
-public class BrandController extends HttpServlet {
+public class TransactionTypeController extends HttpServlet {
 
    @Resource(name = "jdbc/inventory")
    private DataSource datasource;
@@ -70,20 +67,20 @@ public class BrandController extends HttpServlet {
       try (PrintWriter out = response.getWriter()) {
 
          switch (request.getServletPath()) {
-            case "/brand.create":
-               this.createBrand(con, result, request);
+            case "/transactionType.create":
+//               this.createBrand(con, result, request);
                break;
-            case "/brand.get":
-               this.getBrand(con, result, request);
+            case "/transactionType.get":
+//               this.getBrand(con, result, request);
                break;
-            case "/brand.getAll":
-               this.getAllBrand(con, result);
+            case "/transactionType.getAll":
+               this.getAllTransactionType(con, result);
                break;
-            case "/brand.update":
-               this.updateBrand(con, result, request);
+            case "/transactionType.update":
+//               this.updateBrand(con, result, request);
                break;
-            case "/brand.delete":
-               this.deleteBrand(con, result, request);
+            case "/transactionType.delete":
+//               this.deleteBrand(con, result, request);
                break;
             default:
                break;
@@ -100,38 +97,11 @@ public class BrandController extends HttpServlet {
       }
    }
 
-   private void createBrand(Connection con, Map result, HttpServletRequest request) throws SQLException {
-      Brand brand = new Brand(request);
-      BrandDao.create(con, brand);
-      result.put("data", brand);
-      result.put("status", 0);
-      result.put("response", "Creation successful!");
-   }
-
-   private void getBrand(Connection con, Map result, HttpServletRequest request) {
-
-   }
-
-   private void getAllBrand(Connection con, Map result) throws SQLException {
-      List<Brand> brands = BrandDao.getAll(con);
+   private void getAllTransactionType(Connection con, Map result) throws SQLException {
+      List<TransactionType> brands = TransactionTypeDao.getAll(con);
       result.put("data", brands);
       result.put("status", 0);
       result.put("response", "Query successful!");
-   }
-
-   private void updateBrand(Connection con, Map result, HttpServletRequest request) throws SQLException {
-      Brand brand = new Brand(request);
-      BrandDao.update(con, brand);
-      result.put("data", brand);
-      result.put("status", 0);
-      result.put("response", "Update successful!");
-   }
-
-   private void deleteBrand(Connection con, Map result, HttpServletRequest request) throws SQLException {
-      int id = Integer.parseInt(request.getParameter("id"));
-      BrandDao.delete(con, id);
-      result.put("status", 0);
-      result.put("response", "Delete successful!");
    }
 
    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

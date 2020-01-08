@@ -33,22 +33,22 @@
                 <a href="#">Users</a>
             </li>
             <li>
-                <a href="/Inventory/system/product/">Product</a>
+                <a href="${root_path}system/product/">Product</a>
             </li>
             <li>
-                <a href="/Inventory/system/product/brand.jsp">Brand</a>
+                <a href="${root_path}system/product/brand.jsp">Brand</a>
             </li>
             <li>
-                <a href="/Inventory/system/product/category.jsp">Category</a>
+                <a href="${root_path}system/product/category.jsp">Category</a>
             </li>
             <li>
-                <a href="/Inventory/system/product/category.jsp">Category</a>
+                <a href="${root_path}system/pos/">POS</a>
             </li>
             <li>
                 <a href="#transacMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transaction</a>
                 <ul class="collapse list-unstyled" id="transacMenu">
                     <li>
-                        <a href="#">Type</a>
+                        <a href="${root_path}system/transaction/">Type</a>
                     </li>
                 </ul>
             </li>
