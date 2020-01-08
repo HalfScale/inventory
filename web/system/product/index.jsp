@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:system_page title="Product">
 	<jsp:attribute name="head">
-        
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     </jsp:attribute>
 	
     <jsp:attribute name="post_body">
