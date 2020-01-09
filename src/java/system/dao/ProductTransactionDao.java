@@ -47,12 +47,14 @@ public class ProductTransactionDao {
 			pstmt.setInt(1, id);
 
 			try (ResultSet rs = pstmt.executeQuery()) {
-				TransactionType transactionType = TransactionTypeDao.getById(con, rs.getInt(2));
-				LocalDateTime dateTime = LocalDateTime.now();
+				if (rs.next()) {
+					TransactionType transactionType = TransactionTypeDao.getById(con, rs.getInt(2));
+					LocalDateTime dateTime = LocalDateTime.now();
 
-				productTransaction.setId(rs.getInt(1));
-				productTransaction.setTransactionType(transactionType);
-				productTransaction.setTimestamp(Util.toTimestamp(dateTime));
+					productTransaction.setId(rs.getInt(1));
+					productTransaction.setTransactionType(transactionType);
+					productTransaction.setTimestamp(Util.toTimestamp(dateTime));
+				}
 			}
 		}
 
