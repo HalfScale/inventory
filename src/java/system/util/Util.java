@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
+import system.bean.User;
 
 /**
  *
@@ -24,6 +25,10 @@ public class Util {
          sb.append("../");
       }
       return sb.toString();
+   }
+   
+   public static User getActiveUser(HttpServletRequest request) {
+       return (User)request.getSession().getAttribute("active_user");
    }
 
    public static String isBlank(String cs, String fallBack) {

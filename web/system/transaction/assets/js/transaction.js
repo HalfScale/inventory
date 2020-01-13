@@ -2,7 +2,7 @@ $(function() {
 	var transactionTable = $('#transactionTable');
 	
 	$.get($g.root_path + 'productTransaction.getAll').done(function(result) {
-		console.log('result', result);
+		console.log('result getAll', result);
 	});
 	
 //	transactionTable.DataTable({

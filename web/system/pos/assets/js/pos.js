@@ -49,59 +49,59 @@ $(function () {
                     createCheckOutRow(data, false).appendTo(tbody);
                     checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2).commafy());
                 },
-				close: function() {
-					console.log('close method invoked!');
-					removeProductEntry(data.id);
-				}
+                close: function () {
+                    console.log('close method invoked!');
+                    removeProductEntry(data.id);
+                }
             });
         }
 
     });
-    
+
     posCheckoutDialog.standardDialog({
         title: 'Checkout Transaction',
-        onOpen: function() {
+        onOpen: function () {
             posCheckoutDialog.find('.total').val(computeCheckoutTotal().toFixed(2).commafy());
         },
-		onClose: function() {
-			getTransactionTypes();
-		},
-        ajax: function(fd) {
+        onClose: function () {
+            getTransactionTypes();
+        },
+        ajax: function (fd) {
             var product = [];
             checkOutTable.find('tbody').children().each(function () {
                 var item = $(this).data('checkout.item.data');
                 var quantity = $(this).find('.checkout-row-quantity').val();
                 var isReseller = $(this).data('reseller.data');
-                
+
                 product.push({
                     productId: item.id,
                     quantity: quantity,
                     isReseller: isReseller
                 });
             });
-            
+
             fd['products'] = JSON.stringify(product);
 //            console.log('posCheckoutDialog fd', fd);
             return $.post($g.root_path + 'product.checkout', fd);
         },
-		done: function(result, modal) {
-			posProductTable.DataTable().ajax.reload();
-			checkOutTable.find('tbody').empty();
-			checkoutTotal.text('Total: 0.00');
-			modal.modal('hide');
-			sysAlert({
-				text: result.response,
-				delay: 2000
-			});
-		}
+        done: function (result, modal) {
+            posProductTable.DataTable().ajax.reload();
+            checkOutTable.find('tbody').empty();
+            checkoutTotal.text('Total: 0.00');
+            modal.modal('hide');
+            sysAlert({
+                text: result.response,
+                delay: 2000
+            });
+        }
     });
-    
+
     checkOutBttn.on('click', function () {
         posCheckoutDialog.modal('show');
     });
-    
+
     function checkout() {
-        
+
     }
 
     function getTransactionTypes() {
@@ -123,13 +123,13 @@ $(function () {
                 el: '<span>',
                 attr: {
                     text: data.name,
-					class: 'checkout-row-name'
+                    class: 'checkout-row-name'
                 }
             },
             {
                 el: '<input>',
                 attr: {
-					max: data.stock,
+                    max: data.stock,
                     type: 'number',
                     class: 'checkout-row-quantity wem-4'
                 }
@@ -138,7 +138,7 @@ $(function () {
                 el: '<span>',
                 attr: {
                     text: isReseller ? data.resellerPrice : data.price,
-					class: 'checkout-row-price'
+                    class: 'checkout-row-price'
                 }
             }
         ].forEach(function (col) {
@@ -150,10 +150,10 @@ $(function () {
                 el.on('change', function () {
                     var val = $(this).val();
                     if (val === '0') {
-						removeProductEntry(data.id, row);
+                        removeProductEntry(data.id, row);
                     }
-					
-					checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2).commafy());
+
+                    checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2).commafy());
                 });
             }
 
@@ -162,37 +162,37 @@ $(function () {
 
         return row;
     }
-	
-	function removeProductEntry(targetId, elem) {
-		
-		posProductEntries.some(function (id, index) {
-			if (targetId === id) {
-				posProductEntries.splice(index, 1);
-			}
-		});
-		
-		if (elem) {
-			elem.remove();
-		}
-	}
-    
+
+    function removeProductEntry(targetId, elem) {
+
+        posProductEntries.some(function (id, index) {
+            if (targetId === id) {
+                posProductEntries.splice(index, 1);
+            }
+        });
+
+        if (elem) {
+            elem.remove();
+        }
+    }
+
     function computeCheckoutTotal() {
         var total = 0;
-		console.log('computeCheckoutTotal');
+        console.log('computeCheckoutTotal');
         checkOutTable.find('tbody').children().each(function () {
             var item = $(this).data('checkout.item.data');
-			var quantity = $(this).find('.checkout-row-quantity').val();
+            var quantity = $(this).find('.checkout-row-quantity').val();
             var isReseller = $(this).data('reseller.data');
-            
+
             console.log('item', item);
-            
+
             if (isReseller) {
                 total += (Number(item.resellerPrice) * quantity);
-            }else {
+            } else {
                 total += (Number(item.price) * quantity);
             }
         });
-        
+
         return total;
     }
 
