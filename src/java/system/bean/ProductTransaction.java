@@ -17,6 +17,7 @@ public class ProductTransaction {
    private int id = -1;
    private TransactionType transactionType;
    private Timestamp timestamp;
+   private User user;
    
    public ProductTransaction() {
    }
@@ -44,6 +45,13 @@ public class ProductTransaction {
    public void setTimestamp(Timestamp timestamp) {
       this.timestamp = timestamp;
    }
-   
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
    
 }

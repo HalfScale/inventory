@@ -1,21 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package system.bean;
+
+import javax.servlet.http.HttpServletRequest;
+import system.util.Util;
 
 /**
  *
  * @author MacMuffin
  */
 public class User {
-    private int id = -1;
+    private int id;
     private String firstName;
     private String lastName;
     private String email;
     private String username;
     private String password;
+    private boolean status;
+
+    public User() {
+    }
+
+    public User(HttpServletRequest request) {
+        this.id = Integer.parseInt(Util.isBlank(request.getParameter("id"), "-1"));
+    }
 
     public int getId() {
         return id;
@@ -24,7 +32,7 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
@@ -63,6 +71,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
 }

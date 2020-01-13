@@ -12,8 +12,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +19,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import system.bean.User;
 import system.dao.UserController;
+import system.dao.UserDao;
 
 /**
  *
@@ -37,13 +38,15 @@ public class WebLogin extends HttpServlet {
     @Resource(name = "jdbc/inventory")
     private DataSource datasource;
     private Connection con;
+    private final static Logger logger = LogManager.getLogger(WebLogin.class);
 
     public void init() throws ServletException {
         super.init();
+        System.out.println("logger not started!");
         try {
             con = datasource.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger(WebLogin.class.getName()).log(Level.SEVERE, null, ex);
+            logger.debug("SQL Exception", ex);
         }
     }
 
@@ -90,36 +93,36 @@ public class WebLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setHeader("Content-Type", "application/json");
 
         Map result = new HashMap();
         Gson gson = new Gson();
-        response.setHeader("Content-Type", "application/json");
-
+        
         try (PrintWriter out = response.getWriter()) {
 
             try {
                 String username = request.getParameter("user");
                 String password = request.getParameter("pass");
                 
-                User user = UserController.getUser(con, username, password);
-                System.out.println("username");
-                System.out.println("password");
-
+                User user = UserDao.getByUsernameAndPassword(con, username, password);
+                logger.debug("Is user null? " + user == null);
                 if (user != null) {
+                    logger.debug("User " + user.getFirstName() + " " + user.getLastName() + " logging in...");
                     request.getSession().setAttribute("active_user", user);
                     result.put("status", 0);
                     result.put("response", "login succesful!");
                 } else {
+                    logger.debug("User does not exist!");
                     result.put("status", 1);
                     result.put("response", "Incorrect username and password!");
                 }
 
             } catch (SQLException ex) {
-                System.out.println("Exception " + ex.getMessage());
+                logger.debug(ex.getMessage(), ex);
                 result.put("status", 1);
                 result.put("response", ex.getMessage());
             } catch (Exception ex) {
-                System.out.println("Exception " + ex.getMessage());
+                logger.debug(ex.getMessage(), ex);
                 result.put("status", 1);
                 result.put("response", ex.getMessage());
             }
