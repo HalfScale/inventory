@@ -25,58 +25,59 @@ import system.util.Util;
  */
 public class ProductTransactionDao {
 
-    private static final String SQL_CREATE_PRODUCT_TRANSACTION = "insert into `product_transaction` (user_id, transaction_type_id, timestamp) VALUES (?, ?, ?)";
-    private static final String SQL_GET_PRODUCT_TRANSACTION_BY_ID = "select * from `product_transaction` where id = ?";
-    private static final String SQL_GET_ALL_PRODUCT_TRANSACTION = "select * from `product_transaction`";
+	private static final String SQL_CREATE_PRODUCT_TRANSACTION = "insert into `product_transaction` (user_id, transaction_type_id, timestamp) VALUES (?, ?, ?)";
+	private static final String SQL_GET_PRODUCT_TRANSACTION_BY_ID = "select * from `product_transaction` where id = ?";
+	private static final String SQL_GET_ALL_PRODUCT_TRANSACTION = "select * from `product_transaction`";
 
-    public static void create(Connection con, ProductTransaction productTransaction) throws SQLException {
-        try (PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_PRODUCT_TRANSACTION, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setInt(1, productTransaction.getUser().getId());
-            pstmt.setInt(2, productTransaction.getTransactionType().getId());
-            pstmt.setTimestamp(3, productTransaction.getTimestamp());
-            pstmt.executeUpdate();
-            Console.log("Product Transaction Dao!");
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    productTransaction.setId(generatedKeys.getInt(1));
-                }
-            }
-        }
-    }
+	public static void create(Connection con, ProductTransaction productTransaction) throws SQLException {
+		try (PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_PRODUCT_TRANSACTION, Statement.RETURN_GENERATED_KEYS)) {
+			pstmt.setInt(1, productTransaction.getUser().getId());
+			pstmt.setInt(2, productTransaction.getTransactionType().getId());
+			pstmt.setTimestamp(3, productTransaction.getTimestamp());
+			pstmt.executeUpdate();
+			Console.log("Product Transaction Dao!");
+			try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+				if (generatedKeys.next()) {
+					productTransaction.setId(generatedKeys.getInt(1));
+				}
+			}
+		}
+	}
 
-    public static ProductTransaction getById(Connection con, int id) throws SQLException {
-        ProductTransaction productTransaction = new ProductTransaction();
-        try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_PRODUCT_TRANSACTION_BY_ID)) {
-            pstmt.setInt(1, id);
+	public static ProductTransaction getById(Connection con, int id) throws SQLException {
+		ProductTransaction productTransaction = new ProductTransaction();
+		ResultSet rs = null;
 
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    TransactionType transactionType = TransactionTypeDao.getById(con, rs.getInt(3));
-                    User user = UserDao.getById(con, rs.getInt(2));
-                    LocalDateTime dateTime = LocalDateTime.now();
+		try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_PRODUCT_TRANSACTION_BY_ID)) {
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				TransactionType transactionType = TransactionTypeDao.getById(con, rs.getInt(3));
+				User user = UserDao.getById(con, rs.getInt(2));
+				LocalDateTime dateTime = LocalDateTime.now();
 
-                    productTransaction.setId(rs.getInt(1));
-                    productTransaction.setUser(user);
-                    productTransaction.setTransactionType(transactionType);
-                    productTransaction.setTimestamp(Util.toTimestamp(dateTime));
-                }
-            }
-        }
+				productTransaction.setId(rs.getInt(1));
+				productTransaction.setUser(user);
+				productTransaction.setTransactionType(transactionType);
+				productTransaction.setTimestamp(Util.toTimestamp(dateTime));
+			}
+		}
 
-        return productTransaction;
-    }
+		return productTransaction;
+	}
 
-    public static List<ProductTransaction> getAll(Connection con) throws SQLException {
-        List<ProductTransaction> productTransactions = new ArrayList<>();
-        try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_ALL_PRODUCT_TRANSACTION);
-                ResultSet rs = pstmt.executeQuery()) {
+	public static List<ProductTransaction> getAll(Connection con) throws SQLException {
+		List<ProductTransaction> productTransactions = new ArrayList<>();
+		try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_ALL_PRODUCT_TRANSACTION);
+				ResultSet rs = pstmt.executeQuery()) {
 
-            while (rs.next()) {
-                ProductTransaction productTransaction = ProductTransactionDao.getById(con, rs.getInt(1));
-                productTransactions.add(productTransaction);
-            }
-        }
+			while (rs.next()) {
+				ProductTransaction productTransaction = ProductTransactionDao.getById(con, rs.getInt(1));
+				productTransactions.add(productTransaction);
+			}
+		}
 
-        return productTransactions;
-    }
+		return productTransactions;
+	}
 }

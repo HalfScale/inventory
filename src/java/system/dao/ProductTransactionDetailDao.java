@@ -45,13 +45,16 @@ public class ProductTransactionDetailDao {
 
 	public static ProductTransactionDetail getById(Connection con, int id) throws SQLException {
 		ProductTransactionDetail productTransactionDetail = new ProductTransactionDetail();
+		ResultSet rs = null;
+		
 		try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_TABLE_BY_ID)) {
 			pstmt.setInt(1, id);
-
-			try (ResultSet rs = pstmt.executeQuery()) {
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
 				ProductTransaction productTransaction = ProductTransactionDao.getById(con, rs.getInt(2));
 				Product product = ProductDao.getById(con, rs.getInt(3));
-				
+
 				productTransactionDetail.setId(rs.getInt(1));
 				productTransactionDetail.setProductTransaction(productTransaction);
 				productTransactionDetail.setProduct(product);

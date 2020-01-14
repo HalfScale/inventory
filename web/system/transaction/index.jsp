@@ -25,5 +25,25 @@
 
             </tbody>
         </table>
+		
+		<!--Dialogs-->
+		<div id="transactionDetailDialog">
+			<table id="transactionDetailTable" class="table table-hover w-100">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Code</th>
+						<th scope="col">Product</th>
+						<th scope="col">Price</th>
+						<th scope="col">Reseller Price</th>
+						<th scope="col">Quantity</th>
+						<th scope="col">Is Reseller</th>
+					</tr>
+				</thead>
+
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
     </jsp:body>
 </t:system_page>
