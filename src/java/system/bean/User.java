@@ -23,6 +23,12 @@ public class User {
 
     public User(HttpServletRequest request) {
         this.id = Integer.parseInt(Util.isBlank(request.getParameter("id"), "-1"));
+        this.firstName = request.getParameter("firstName");
+        this.lastName = request.getParameter("lastName");
+        this.email = request.getParameter("email");
+        this.username = request.getParameter("username");
+        this.password = request.getParameter("password");
+        this.status = request.getParameter("status").equals("1");
     }
 
     public int getId() {
