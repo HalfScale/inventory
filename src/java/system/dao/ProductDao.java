@@ -51,24 +51,24 @@ public class ProductDao {
 
 	public static Product getById(Connection con, int id) throws SQLException {
 		Product product = new Product();
+		ResultSet rs = null;
 		try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_PRODUCT_BY_ID)) {
 			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
 
-			try (ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
-					product.setId(rs.getInt(1));
-					Brand brand = BrandDao.getById(con, rs.getInt(2));
-					product.setBrand(brand);
-					Category category = CategoryDao.getById(con, rs.getInt(3));
-					product.setCategory(category);
-					product.setName(rs.getString(4));
-					product.setCode(rs.getString(5));
-					product.setDescription(rs.getString(6));
-					product.setPrice(rs.getBigDecimal(7));
-					product.setResellerPrice(rs.getBigDecimal(8));
-					product.setStock(rs.getInt(9));
-					product.setStatus(rs.getBoolean(10));
-				}
+			if (rs.next()) {
+				product.setId(rs.getInt(1));
+				Brand brand = BrandDao.getById(con, rs.getInt(2));
+				product.setBrand(brand);
+				Category category = CategoryDao.getById(con, rs.getInt(3));
+				product.setCategory(category);
+				product.setName(rs.getString(4));
+				product.setCode(rs.getString(5));
+				product.setDescription(rs.getString(6));
+				product.setPrice(rs.getBigDecimal(7));
+				product.setResellerPrice(rs.getBigDecimal(8));
+				product.setStock(rs.getInt(9));
+				product.setStatus(rs.getBoolean(10));
 			}
 		}
 

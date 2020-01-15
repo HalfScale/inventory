@@ -7,7 +7,11 @@
 			ajax: null,
 			done: null,
 			formReset: true,
-			scrollable: false
+			scrollable: false,
+			small: false,
+			large: false,
+			xlarge: false,
+			hideButtons: false
 		}, args);
 
 		var $this = $(this).attr({
@@ -22,6 +26,14 @@
 			class: 'modal-dialog',
 			role: 'document'
 		});
+		
+		if (_args.small) {
+			dialog.addClass('modal-sm');
+		}else if (_args.large) {
+			dialog.addClass('modal-lg');
+		}else if (_args.xlarge) {
+			dialog.addClass('modal-xl');
+		}
 
 		if (_args.scrollable) {
 			dialog.addClass('modal-dialog-scrollable');
@@ -129,6 +141,10 @@
 				_args.onClose();
 			});
 		}
+		
+		if (_args.hideButtons) {
+			content.find('.modal-footer').hide();
+		};
 
 		form.on('submit', function (e) {
 			e.preventDefault();
@@ -149,4 +165,5 @@
 		
 		return $this;
 	};
+	
 }(jQuery));
