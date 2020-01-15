@@ -37,8 +37,9 @@ public class UserDao {
 
     public static User getById(Connection con, int id) throws SQLException {
         User user = new User();
+        ResultSet rs = null;
+        
         try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_USER_BY_ID)) {
-            ResultSet rs = null;
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
             

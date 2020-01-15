@@ -30,7 +30,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#">Users</a>
+                <a href="${root_path}system/user/">Users</a>
             </li>
             <li>
                 <a href="${root_path}system/product/">Product</a>

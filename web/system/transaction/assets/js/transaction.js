@@ -9,7 +9,14 @@ $(function() {
             dataSrc: 'data'
         },
         columns: [
-            {data: 'transaction.user.firstName'},
+            {
+                data: null,
+                render: function(data) {
+                    var firstName = data.transaction.user.firstName;
+                    var lastName = data.transaction.user.lastName;
+                    return firstName + ' ' + lastName;
+                }
+            },
             {data: 'transaction.transactionType.name'},
             {data: 'transaction.timestamp'}
         ],
