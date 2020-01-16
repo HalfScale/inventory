@@ -21,6 +21,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Name</th>
+                    <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Status</th>
                 </tr>
@@ -50,13 +51,18 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="">Username</label>
+                    <input type="text" class="form-control" name="username" required>
+                </div>
+                
+                <div class="form-group">
                     <label for="">Password</label>
                     <input type="password" class="form-control" name="password" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="">Confirm Password</label>
-                    <input type="password" class="form-control" name="password" required>
+                    <input type="password" class="form-control" name="confirmPassword" required>
                 </div>
 
                 <div class="form-group">
@@ -91,6 +97,11 @@
                     <label for="">Email</label>
                     <input type="email" class="email form-control" name="email" required>
                 </div>
+                
+                <div class="form-group">
+                    <label for="">Username</label>
+                    <input type="text" class="username form-control" name="username" required>
+                </div>
 
                 <div class="form-group">
                     <label for="">Password</label>
@@ -99,7 +110,7 @@
                 
                 <div class="form-group">
                     <label for="">Confirm Password</label>
-                    <input type="password" class="password form-control" name="password">
+                    <input type="password" class="confirmPassword form-control" name="confirmPassword">
                 </div>
 
                 <div class="form-group">

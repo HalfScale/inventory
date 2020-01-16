@@ -110,12 +110,15 @@ function sysAlert(args) {
     var body = $('body #content');
     var _args = $.extend({
         text: 'Alert!',
-        delay: 1500
+        delay: 1500,
+        type: 'light'
     }, args);
 
-    var defAlertClass = 'standard-alert alert alert-light alert-dismissible fade show text-center';
+    var defAlertClass = 'standard-alert alert alert-dismissible fade show text-center';
+    var alertType = 'alert-' + _args.type;
+    
     var alert = $('<div>', {
-        class: defAlertClass,
+        class: defAlertClass + ' ' + alertType,
         role: 'alert'
     });
 
