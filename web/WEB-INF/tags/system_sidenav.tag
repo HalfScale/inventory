@@ -30,7 +30,10 @@
                 </ul>
             </li>
             <li>
-                <a href="${root_path}system/user/">Users</a>
+                <a href="${root_path}system/user/">User</a>
+            </li>
+            <li>
+                <a href="${root_path}system/user/role.jsp">Role</a>
             </li>
             <li>
                 <a href="${root_path}system/product/">Product</a>
@@ -45,12 +48,7 @@
                 <a href="${root_path}system/pos/">POS</a>
             </li>
             <li>
-                <a href="#transacMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transaction</a>
-                <ul class="collapse list-unstyled" id="transacMenu">
-                    <li>
-                        <a href="${root_path}system/transaction/">Type</a>
-                    </li>
-                </ul>
+                <a href="${root_path}system/transaction/">Transaction</a>
             </li>
             <li>
                 <a href="#">Logout</a>
@@ -67,7 +65,7 @@
                     <i class="fas fa-align-left"></i>
                     <span>Toggle Sidebar</span>
                 </button>
-                
+
                 <nav id="top-nav" class="d-flex align-items-center" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
