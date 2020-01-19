@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import system.bean.Module;
 import system.bean.Role;
 
 public class RoleDao {
@@ -78,4 +81,27 @@ public class RoleDao {
     }
 
     //</editor-fold>
+	
+	public static Role getRoleWithModules(Connection con, int id) throws SQLException {
+		ResultSet rs = null;
+		Role role = RoleDao.getById(con, id);
+		List<Module> modules = new ArrayList<>();
+		
+		String query = "select * from role_module where role_id = ?";
+		
+		try (PreparedStatement pstmt = con.prepareStatement(query)) {
+			pstmt.setInt(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Module module = ModuleDao.getById(con, rs.getInt(3));
+				modules.add(module);
+			}
+			
+			role.setModules(modules);
+		}
+		
+		return role;
+	}
 }

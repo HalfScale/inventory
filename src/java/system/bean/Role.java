@@ -2,6 +2,7 @@
 
 package system.bean;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import system.util.Util;
 
@@ -12,6 +13,7 @@ import system.util.Util;
 public class Role {
     private int id;
     private String name;
+	private List<Module> modules;
 
     public Role() {
     }
@@ -36,5 +38,13 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
+
+	public List<Module> getModules() {
+		return modules;
+	}
+
+	public void setModules(List<Module> modules) {
+		this.modules = modules;
+	}
     
 }
