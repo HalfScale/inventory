@@ -38,7 +38,14 @@
 				filter: null
 			}, args);
 
-			var $this = $(this);
+			var $this;
+			
+			if ($(this).is('form')) {
+				$this = $(this);
+			} else {
+				$this = $(this).find('form');
+			}
+			
 			if (_args.source != null) {
 				Object.keys(_args.source).forEach(function (key) {
 					if (isPrimitive(_args.source[key])) {
