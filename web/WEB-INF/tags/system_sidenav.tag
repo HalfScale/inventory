@@ -10,11 +10,12 @@
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>User Picture</h3>
+			<img src="../../assets/img/default.png" class="img-thumbnail img-fluid" alt="User Picture">
+            <!--<h3>User Picture</h3>-->
         </div>
 
         <ul class="list-unstyled components">
-            <p>User Name</p>
+            <p>${active_user.firstName} ${active_user.lastName}</p>
             <li class="active">
                 <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Dash Board</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
