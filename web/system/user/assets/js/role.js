@@ -97,6 +97,7 @@ $(function () {
 				}
 			});
 			fd['modules'] = selectedModules;
+			console.log('before submit fd', fd);
 			return $.post($g.root_path + 'role.update', fd);
 		},
 		done: function (result, modal) {

@@ -152,7 +152,7 @@ public class RoleController extends HttpServlet {
 	private void updateRole(Connection con, Map result, HttpServletRequest request) throws SQLException {
 		Role role = new Role(request);
 		RoleDao.update(con, role);
-		String[] modules = request.getParameterValues("modules[]");
+		String[] modules = request.getParameterValues("modules[]") != null ? request.getParameterValues("modules[]"): new String[0]; // If there are no module assign to this role
 		List<String> roleNewModules = new ArrayList<>();
 		Collections.addAll(roleNewModules, modules);
 		Console.log("variable declaration");
