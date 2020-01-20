@@ -78,6 +78,17 @@ public class RoleModuleDao {
                 pstmt.executeUpdate();
         }
     }
+	
+	public static void deleteByModule(Connection con, int roleId, int moduleId) throws SQLException {
+		String query = "delete from `role_module` where role_id = ? and module_id = ?";
+		try (PreparedStatement pstmt = con.prepareStatement(query)) {
+			pstmt.setInt(1, roleId);
+			pstmt.setInt(2, moduleId);
+			pstmt.executeUpdate();
+		}catch(SQLException ex) {
+			throw new SQLException(ex.getMessage(), ex);
+		}
+	}
 
     //</editor-fold>
 }

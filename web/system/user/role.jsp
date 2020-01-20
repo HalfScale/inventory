@@ -70,57 +70,55 @@
 					</div>
                 </div>
 
-
                 <input type="submit" class="dummy-submit">
             </form>
         </div>
 
-        <!--<div id="roleUpdateModal">
+        <div id="roleUpdateModal">
             <form>
                 <div class="hidden-widget">
                     <input type="text" class="id" name="id">
                 </div>
-
-                <div class="form-group">
-                    <label for="">First Name</label>
-                    <input type="text" class="firstName form-control" name="firstName" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="">Last Name</label>
-                    <input type="text" class="lastName form-control" name="lastName" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="">Email</label>
-                    <input type="email" class="email form-control" name="email" required>
+				
+				<div class="form-group">
+                    <label for="">Name</label>
+                    <input type="text" class="name form-control" name="name" required>
                 </div>
 				
-                <div class="form-group">
-                    <label for="">Username</label>
-                    <input type="text" class="username form-control" name="username" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="">Password</label>
-                    <input type="password" class="password form-control" name="password">
-                </div>
-				
-                <div class="form-group">
-                    <label for="">Confirm Password</label>
-                    <input type="password" class="confirmPassword form-control" name="confirmPassword">
-                </div>
-
-                <div class="form-group">
-                    <label for="">Status</label>
-                    <select class="status custom-select" name="status">
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
-                    </select>
+				<div id="moduleSelection">
+					<h5><span class="badge badge-primary">Select Modules</span></h5>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="moduleSwitch custom-control-input" id="userUpdate" value="100">
+						<label class="custom-control-label" for="userUpdate">User</label>
+					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="moduleSwitch custom-control-input" id="roleUpdate" value="101">
+						<label class="custom-control-label" for="roleUpdate">Role</label>
+					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="moduleSwitch custom-control-input" id="productUpdate" value="200"> 
+						<label class="custom-control-label" for="productUpdate">Product</label>
+					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="moduleSwitch custom-control-input" id="categoryUpdate" value="201">
+						<label class="custom-control-label" for="categoryUpdate">Category</label>
+					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="moduleSwitch custom-control-input" id="brandUpdate" value="202">
+						<label class="custom-control-label" for="brandUpdate">Brand</label>
+					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="moduleSwitch custom-control-input" id="posUpdate" value="300">
+						<label class="custom-control-label" for="posUpdate">POS</label>
+					</div>
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="moduleSwitch custom-control-input" id="transactionUpdate" value="400">
+						<label class="custom-control-label" for="transactionUpdate">Transaction</label>
+					</div>
                 </div>
 
                 <input type="submit" class="dummy-submit">
             </form>
-        </div>-->
+        </div>
     </jsp:body>
 </t:system_page>

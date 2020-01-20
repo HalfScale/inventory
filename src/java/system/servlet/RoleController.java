@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,8 +117,8 @@ public class RoleController extends HttpServlet {
 	private void createRole(Connection con, Map result, HttpServletRequest request) throws SQLException {
 		Role role = new Role(request);
 		RoleDao.create(con, role);
-		Console.log("Inside create role");
 		String[] modules = request.getParameterValues("modules[]");
+		
 		for (String id : modules) {
 			Module module = ModuleDao.getById(con, Integer.parseInt(id));
 
@@ -150,6 +152,39 @@ public class RoleController extends HttpServlet {
 	private void updateRole(Connection con, Map result, HttpServletRequest request) throws SQLException {
 		Role role = new Role(request);
 		RoleDao.update(con, role);
+		String[] modules = request.getParameterValues("modules[]");
+		List<String> roleNewModules = new ArrayList<>();
+		Collections.addAll(roleNewModules, modules);
+		Console.log("variable declaration");
+		
+		Role roleWithModule = RoleDao.getRoleWithModules(con, role.getId());
+		Console.log("getRoleWithModules");
+		
+		Console.log("getModules length " + roleWithModule.getModules().size());
+		
+		for (Module roleCurrentModule : roleWithModule.getModules()) {
+			String currentId = String.valueOf(roleCurrentModule.getId());
+			Console.log("currentId", currentId);
+			if (roleNewModules.contains(currentId)) {
+				Console.log("roleNewModules contains", currentId);
+				roleNewModules.remove(currentId);
+			}else {
+				Console.log("does not contains", currentId);
+				RoleModuleDao.deleteByModule(con, role.getId(), Integer.parseInt(currentId));
+			}
+		}
+		
+		System.out.println("after roleNewModules " + roleNewModules);
+		for (String id : roleNewModules) {
+			Module module = ModuleDao.getById(con, Integer.parseInt(id));
+			
+			RoleModule roleModule = new RoleModule();
+			roleModule.setRoleId(role.getId());
+			roleModule.setModuleId(module.getId());
+
+			RoleModuleDao.create(con, roleModule);
+		}
+		
 		result.put("data", role);
 		result.put("status", 0);
 		result.put("response", "Update successful!");
