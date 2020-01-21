@@ -10,8 +10,7 @@
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-			<img src="../../assets/img/default.png" class="img-thumbnail img-fluid" alt="User Picture">
-            <!--<h3>User Picture</h3>-->
+			<img src="${root_path}assets/img/default.png" class="img-thumbnail img-fluid" alt="User Picture">
         </div>
 
         <ul class="list-unstyled components">
@@ -30,9 +29,7 @@
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="${root_path}system/user/">User</a>
-            </li>
+			<t:nav_link title="User" module="100" link="user/" />
             <li>
                 <a href="${root_path}system/user/role.jsp">Role</a>
             </li>

@@ -64,6 +64,7 @@ public class UserDao {
 
             while (rs.next()) {
                 User user = UserDao.getById(con, rs.getInt(1));
+				user.setRole(RoleDao.getRoleByUser(con, rs.getInt(1)));
                 users.add(user);
             }
         }

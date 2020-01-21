@@ -16,6 +16,7 @@ public class User {
     private String email;
     private String username;
     private String password;
+	private Role role;
     private boolean status;
 
     public User() {
@@ -30,6 +31,10 @@ public class User {
         this.password = request.getParameter("password");
         this.status = request.getParameter("status").equals("1");
     }
+	
+	public boolean hasModuleAccess(int module) {
+		return true;
+	}
 
     public int getId() {
         return id;
@@ -86,5 +91,15 @@ public class User {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	
     
 }
