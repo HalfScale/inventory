@@ -1,6 +1,10 @@
 (function ($) {
 
-	$.fn.serializeForm = function () {
+	$.fn.serializeForm = function (opts) {
+		var settings = $.extend({
+			custom: null
+		}, opts);
+		
 		var $this;
 		var fd = {};
 
@@ -13,6 +17,10 @@
 		$this.serializeArray().forEach(function (obj) {
 			fd[obj.name] = obj.value;
 		});
+		
+		if ($.isFunction(settings.custom)) {
+			settings.custom(fd, $this);
+		}
 
 		return fd;
 	};
@@ -21,43 +29,53 @@
 
 (function ($) {
 	$.fn.fillForm = function (args) {
-		var _args = $.extend({
-			source: null,
-			custom: null,
-			readonly: false,
-			filter: null
-		}, args);
+		return this.each(function () {
 
-		var $this = $(this);
-		if (_args.source != null) {
-			Object.keys(_args.source).forEach(function (key) {
-				if (isPrimitive(_args.source[key])) {
-					var elem = $this.find('.' + key)
-							.val(_args.source[key])
-							.prop('readonly', _args.readonly);
+			var _args = $.extend({
+				source: null,
+				custom: null,
+				readonly: false,
+				filter: null
+			}, args);
 
-					if ($.isFunction(_args.filter)) {
-						_args.filter(key, _args.source[key], elem);
+			var $this;
+			
+			if ($(this).is('form')) {
+				$this = $(this);
+			} else {
+				$this = $(this).find('form');
+			}
+			
+			if (_args.source != null) {
+				Object.keys(_args.source).forEach(function (key) {
+					if (isPrimitive(_args.source[key])) {
+						var elem = $this.find('.' + key)
+								.val(_args.source[key])
+								.prop('readonly', _args.readonly);
+
+						if ($.isFunction(_args.filter)) {
+							_args.filter(key, _args.source[key], elem);
+						}
 					}
+				});
+
+				if ($.isFunction(_args.custom)) {
+					_args.custom($this, _args.source);
 				}
-			});
-
-			if ($.isFunction(_args.custom)) {
-				_args.custom($this, _args.source);
 			}
-		}
-
-		function isPrimitive(input) {
-			if (typeof input === 'number' ||
-					typeof input === 'boolean' ||
-					typeof input === 'string') {
-
-				return true;
-			}
-
-			return false;
-		}
+		});
 	};
+
+	function isPrimitive(input) {
+		if (typeof input === 'number' ||
+				typeof input === 'boolean' ||
+				typeof input === 'string') {
+
+			return true;
+		}
+
+		return false;
+	}
 }(jQuery));
 
 (function ($) {
@@ -96,9 +114,9 @@ Number.prototype.commafy = function () {
 function commafy(number) {
 	'use strict';
 	var n = number.toString().split('.');
-	
-	n[0] = n[0].replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1,');
-	
+
+	n[0] = n[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+
 	return n.join('.');
 }
 
@@ -108,12 +126,15 @@ function sysAlert(args) {
 	var body = $('body #content');
 	var _args = $.extend({
 		text: 'Alert!',
-		delay: 1500
+		delay: 1500,
+		type: 'light'
 	}, args);
 
-	var defAlertClass = 'standard-alert alert alert-light alert-dismissible fade show text-center';
+	var defAlertClass = 'standard-alert alert alert-dismissible fade show text-center';
+	var alertType = 'alert-' + _args.type;
+
 	var alert = $('<div>', {
-		class: defAlertClass,
+		class: defAlertClass + ' ' + alertType,
 		role: 'alert'
 	});
 
@@ -209,9 +230,9 @@ function sysConfirm(args) {
 			_args.close();
 		}
 	});
-	
+
 	$('<span>', {
-		'aria-hidden': true, 
+		'aria-hidden': true,
 		html: '&times;'
 	}).appendTo(closeBtn);
 
@@ -262,13 +283,13 @@ function sysConfirm(args) {
 				if (child.child) {
 					$(child.child.el, child.child.attr).appendTo(elem);
 				}
-				
+
 				elem.appendTo(div);
-				
+
 				if (section.class === 'modal-header') {
 					closeBtn.appendTo(div);
 				}
-				
+
 				//This is only for the cancel button of this confirm dialog
 				if (section.class === 'modal-footer') {
 					elem.on('click', function () {

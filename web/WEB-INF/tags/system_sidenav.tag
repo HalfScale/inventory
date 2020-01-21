@@ -10,11 +10,11 @@
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>User Picture</h3>
+			<img src="${root_path}assets/img/default.png" class="img-thumbnail img-fluid" alt="User Picture">
         </div>
 
         <ul class="list-unstyled components">
-            <p>User Name</p>
+            <p>${active_user.firstName} ${active_user.lastName}</p>
             <li class="active">
                 <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Dash Board</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -29,8 +29,9 @@
                     </li>
                 </ul>
             </li>
+			<t:nav_link title="User" module="100" link="user/" />
             <li>
-                <a href="#">Users</a>
+                <a href="${root_path}system/user/role.jsp">Role</a>
             </li>
             <li>
                 <a href="${root_path}system/product/">Product</a>
@@ -45,12 +46,7 @@
                 <a href="${root_path}system/pos/">POS</a>
             </li>
             <li>
-                <a href="#transacMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transaction</a>
-                <ul class="collapse list-unstyled" id="transacMenu">
-                    <li>
-                        <a href="${root_path}system/transaction/">Type</a>
-                    </li>
-                </ul>
+                <a href="${root_path}system/transaction/">Transaction</a>
             </li>
             <li>
                 <a href="#">Logout</a>
@@ -67,7 +63,7 @@
                     <i class="fas fa-align-left"></i>
                     <span>Toggle Sidebar</span>
                 </button>
-                
+
                 <nav id="top-nav" class="d-flex align-items-center" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
