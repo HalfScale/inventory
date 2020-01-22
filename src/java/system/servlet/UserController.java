@@ -152,6 +152,10 @@ public class UserController extends HttpServlet {
         result.put("status", 0);
         result.put("response", "Delete successful!");
     }
+	
+	public void hasModuleAccess(int module) {
+	
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
