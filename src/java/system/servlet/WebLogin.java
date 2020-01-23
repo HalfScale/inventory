@@ -109,6 +109,7 @@ public class WebLogin extends HttpServlet {
                 if (user != null) {
                     logger.debug("User " + user.getFirstName() + " " + user.getLastName() + " logging in...");
                     request.getSession().setAttribute("active_user", user);
+                    request.getSession().setAttribute("access", user);
                     result.put("status", 0);
                     result.put("response", "login succesful!");
                 } else {

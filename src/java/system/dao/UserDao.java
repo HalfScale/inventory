@@ -110,4 +110,8 @@ public class UserDao {
         
         return user;
     }
+	
+	public static boolean hasModuleAccess(Connection con, int module) {
+	
+	}
 }
