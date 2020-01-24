@@ -1,4 +1,4 @@
-s$(function () {
+$(function () {
 
     var categoryTable = $('#categoryTable'),
             categoryAddBtn = $('#categoryAddBttn');

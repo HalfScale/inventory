@@ -104,4 +104,24 @@ public class RoleDao {
 		
 		return role;
 	}
+	
+	public static Role getRoleByUser(Connection con, int userId) throws SQLException {
+		ResultSet rs = null;
+		Role role = null;
+		List<Module> modules = new ArrayList<>();
+
+		String query = "select * from user_role where user_id = ?";
+
+		try (PreparedStatement pstmt = con.prepareStatement(query)) {
+			pstmt.setInt(1, userId);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				role = RoleDao.getById(con, rs.getInt(2));
+			}
+		}
+
+		return role;
+	}
 }

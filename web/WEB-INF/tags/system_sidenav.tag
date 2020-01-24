@@ -10,8 +10,7 @@
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-			<img src="../../assets/img/default.png" class="img-thumbnail img-fluid" alt="User Picture">
-            <!--<h3>User Picture</h3>-->
+			<img src="${root_path}assets/img/default.png" class="img-thumbnail img-fluid" alt="User Picture">
         </div>
 
         <ul class="list-unstyled components">
@@ -30,27 +29,13 @@
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="${root_path}system/user/">User</a>
-            </li>
-            <li>
-                <a href="${root_path}system/user/role.jsp">Role</a>
-            </li>
-            <li>
-                <a href="${root_path}system/product/">Product</a>
-            </li>
-            <li>
-                <a href="${root_path}system/product/brand.jsp">Brand</a>
-            </li>
-            <li>
-                <a href="${root_path}system/product/category.jsp">Category</a>
-            </li>
-            <li>
-                <a href="${root_path}system/pos/">POS</a>
-            </li>
-            <li>
-                <a href="${root_path}system/transaction/">Transaction</a>
-            </li>
+			<t:nav_link title="User" module="100" link="user/" />
+			<t:nav_link title="Role" module="101" link="user/role.jsp" />
+			<t:nav_link title="Product" module="200" link="product/" />
+			<t:nav_link title="Brand" module="201" link="product/brand.jsp" />
+			<t:nav_link title="Category" module="202" link="product/category.jsp" />
+			<t:nav_link title="POS" module="300" link="pos/" />
+			<t:nav_link title="Transaction" module="400" link="transaction/" />
             <li>
                 <a href="#">Logout</a>
             </li>

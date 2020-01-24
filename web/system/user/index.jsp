@@ -21,6 +21,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Name</th>
+                    <th scope="col">Role</th>
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Status</th>
@@ -43,6 +44,13 @@
                 <div class="form-group">
                     <label for="">Last Name</label>
                     <input type="text" class="form-control" name="lastName" required>
+                </div>
+				
+                <div class="form-group">
+                    <label for="">Role</label>
+					<select name="role" class="role form-control">
+						
+					</select>
                 </div>
                 
                 <div class="form-group">
@@ -91,6 +99,13 @@
                 <div class="form-group">
                     <label for="">Last Name</label>
                     <input type="text" class="lastName form-control" name="lastName" required>
+                </div>
+				
+				<div class="form-group">
+                    <label for="">Role</label>
+					<select name="role" class="role form-control">
+
+					</select>
                 </div>
 
                 <div class="form-group">

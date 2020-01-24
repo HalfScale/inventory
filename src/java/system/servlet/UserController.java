@@ -21,9 +21,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
+import system.bean.Role;
 import system.bean.User;
+import system.bean.UserRole;
+import system.dao.RoleDao;
 import system.dao.UserDao;
+import system.dao.UserRoleDao;
 import system.logger.Console;
+import system.util.Util;
 
 /**
  *
@@ -100,6 +105,16 @@ public class UserController extends HttpServlet {
     private void createUser(Connection con, Map result, HttpServletRequest request) throws SQLException {
         User user = new User(request);
         UserDao.create(con, user);
+		
+		int roleId = Integer.parseInt(Util.isBlank(request.getParameter("role"), "-1"));
+		Role role = RoleDao.getById(con, roleId);
+		
+		UserRole userRole = new UserRole();
+		userRole.setUser(user);
+		userRole.setRole(role);
+		
+		UserRoleDao.create(con, userRole);
+		
         result.put("data", user);
         result.put("status", 0);
         result.put("response", "Creation successful!");
@@ -118,6 +133,7 @@ public class UserController extends HttpServlet {
 
     private void updateUser(Connection con, Map result, HttpServletRequest request) throws SQLException {
         User user = new User(request);
+		int roleId = Integer.parseInt(Util.isBlank(request.getParameter("role"), "-1"));
         //If user didn't update her/his password
         //Then get the previous password
         if (StringUtils.isBlank(user.getPassword())) {
@@ -136,6 +152,10 @@ public class UserController extends HttpServlet {
         result.put("status", 0);
         result.put("response", "Delete successful!");
     }
+	
+	public void hasModuleAccess(int module) {
+	
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
