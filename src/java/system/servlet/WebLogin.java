@@ -105,12 +105,10 @@ public class WebLogin extends HttpServlet {
                 String password = request.getParameter("pass");
                 
                 User user = UserDao.getByUsernameAndPassword(con, username, password);
-                logger.debug("Is user null? " + user == null);
                 if (user != null) {
 					UserController userController = new UserController();
                     logger.debug("User " + user.getFirstName() + " " + user.getLastName() + " logging in...");
                     request.getSession().setAttribute("active_user", user);
-                    request.getSession().setAttribute("user_access", userController);
                     result.put("status", 0);
                     result.put("response", "login succesful!");
                 } else {

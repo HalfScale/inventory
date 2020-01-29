@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import system.bean.Module;
+import system.bean.Role;
 import system.bean.User;
 
 public class UserDao {
@@ -44,6 +46,11 @@ public class UserDao {
             rs = pstmt.executeQuery();
             
             if (rs.next()) {
+				Role role = RoleDao.getRoleByUser(con, rs.getInt(1));
+				List<Module> modules = ModuleDao.getModuleByRole(con, role.getId());
+				role.setModules(modules);
+				
+				user.setRole(role);
                 user.setId(rs.getInt(1));
                 user.setFirstName(rs.getString(2));
                 user.setLastName(rs.getString(3));
@@ -110,8 +117,4 @@ public class UserDao {
         
         return user;
     }
-	
-	public static boolean hasModuleAccess(Connection con, int module) {
-	
-	}
 }
