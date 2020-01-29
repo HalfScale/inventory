@@ -20,6 +20,8 @@ import system.util.Util;
  * @author MacMuffin
  */
 public class User {
+	public static final String ATTR_ACTIVE_USER = "active_user";
+	
     private int id;
     private String firstName;
     private String lastName;
