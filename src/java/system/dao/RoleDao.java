@@ -85,30 +85,14 @@ public class RoleDao {
 	public static Role getRoleWithModules(Connection con, int id) throws SQLException {
 		ResultSet rs = null;
 		Role role = RoleDao.getById(con, id);
-		List<Module> modules = new ArrayList<>();
-		
-		String query = "select * from role_module where role_id = ?";
-		
-		try (PreparedStatement pstmt = con.prepareStatement(query)) {
-			pstmt.setInt(1, id);
-			
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()) {
-				Module module = ModuleDao.getById(con, rs.getInt(3));
-				modules.add(module);
-			}
-			
-			role.setModules(modules);
-		}
-		
+		List<Module> modules = ModuleDao.getModuleByRole(con, id);
+		role.setModules(modules);
 		return role;
 	}
 	
 	public static Role getRoleByUser(Connection con, int userId) throws SQLException {
 		ResultSet rs = null;
 		Role role = null;
-		List<Module> modules = new ArrayList<>();
 
 		String query = "select * from user_role where user_id = ?";
 
