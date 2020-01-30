@@ -5,10 +5,6 @@ $(function () {
 			userUpdateModal = $('#userUpdateModal');
 
 	getRolesForSelectBox();
-	
-	$.get($g.root_path + 'user.getAll').done(function (result) {
-		console.log('result', result);
-	});
 
 	userTable.DataTable({
 		ajax: {

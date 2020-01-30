@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -19,6 +20,8 @@ import system.util.Util;
  * @author MacMuffin
  */
 public class User {
+	public static final String ATTR_ACTIVE_USER = "active_user";
+	
     private int id;
     private String firstName;
     private String lastName;
@@ -41,29 +44,19 @@ public class User {
         this.status = request.getParameter("status").equals("1");
     }
 	
-	public boolean hasModuleAccess(int module) {
-		Console.log("Target module", String.valueOf(module));
-		String sql = "select * from `user` u inner join `user_role` ur on u.id = ur.role_id "
-				+ "inner join `role_module` rm "
-				+ "on ur.role_id = rm.role_id where rm.module_id = ? "
-				+ "and rm.role_id = ur.role_id";
-		
-		ResultSet rs = null;
-		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-			pstmt.setInt(1, module);
-			rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				Console.log("this user has an access");
-				return true;
-			}
-		
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-			Console.log(ex.getMessage());
+	public boolean hasModuleAccess(Integer moduleId) {
+		if (moduleId == -1 || moduleId == null) {
+			return true;
 		}
 		
-		Console.log("this user does not have an access");
+		List<Module> modules = this.role.getModules();
+		
+		for(Module module : modules) {
+			if (moduleId == module.getId()) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
@@ -130,7 +123,5 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	
     
 }

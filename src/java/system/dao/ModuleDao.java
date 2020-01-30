@@ -77,6 +77,28 @@ public class ModuleDao {
                 pstmt.executeUpdate();
         }
     }
-
+	
     //</editor-fold>
+	
+	public static List<Module> getModuleByRole(Connection con, int roleId) throws SQLException{
+		ResultSet rs = null;
+		List<Module> modules = new ArrayList<>();
+
+		String query = "select * from role_module where role_id = ?";
+
+		try (PreparedStatement pstmt = con.prepareStatement(query)) {
+			pstmt.setInt(1, roleId);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Module module = ModuleDao.getById(con, rs.getInt(3));
+				modules.add(module);
+			}
+		}catch(SQLException e) {
+			throw new SQLException(e.getMessage(), e);
+		}
+
+		return modules;
+	}
 }
