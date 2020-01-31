@@ -14,10 +14,29 @@ $(function () {
             dataSrc: 'data'
         },
         columns: [
-            {data: 'code'},
             {data: 'name'},
-            {data: 'price'},
-            {data: 'stock'}
+            {
+				data: 'stock',
+				className: 'text-center',
+				width: '5em',
+				render: function (data) {
+					return String(data).commafy();
+				}
+			},
+            {
+				data: 'price',
+				className: 'text-right',
+				render: function (data) {
+					return Number(data).toFixed(2).commafy();
+				}
+			},
+			{
+				data: 'resellerPrice',
+				className: 'text-right',
+				render: function (data) {
+					return Number(data).toFixed(2).commafy();
+				}
+			}
         ],
         createdRow: function (row, data) {
             $(row).addClass('productRow clicky')
