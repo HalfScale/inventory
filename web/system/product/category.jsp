@@ -20,9 +20,8 @@
         <table id="categoryTable" class="table table-hover w-100">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Active</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>

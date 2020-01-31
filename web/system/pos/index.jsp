@@ -20,10 +20,10 @@
                 <table id="posProductTable" class="table table-hover w-100">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Code</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Price</th>
                             <th scope="col">Stock</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Reseller Price</th>
                         </tr>
                     </thead>
 
@@ -61,10 +61,10 @@
                 </section>
                 
                 <section id="pos-checkout-footer" class="position-relative">
-                    <div>
+                    <div class="text-center">
                         <span id="checkoutTotal">0.00</span>
                     </div>
-                    <button id="posCheckOutBttn" class="btn btn-primary">Checkout</button>
+                    <button id="posCheckOutBttn" class="btn btn-primary w-100">Checkout</button>
                 </section>
             </div>
         </div>
