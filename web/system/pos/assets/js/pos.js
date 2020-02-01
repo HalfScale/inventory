@@ -156,7 +156,7 @@ $(function () {
             {
                 el: '<span>',
                 attr: {
-                    text: isReseller ? data.resellerPrice : data.price,
+                    text: Number(isReseller ? data.resellerPrice : data.price).toFixed(2).commafy(),
                     class: 'checkout-row-price'
                 }
             }

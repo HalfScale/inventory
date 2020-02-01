@@ -33,10 +33,10 @@
 					<tr>
 						<th scope="col">Code</th>
 						<th scope="col">Product</th>
-						<th scope="col">Price</th>
-						<th scope="col">Reseller Price</th>
-						<th scope="col">Quantity</th>
-						<th scope="col">Is Reseller</th>
+						<th scope="col" class="text-center">Quantity</th>
+						<th scope="col" class="text-right">Price</th>
+						<th scope="col" class="text-right">Reseller Price</th>
+						<th scope="col" class="text-center">Is Reseller</th>
 					</tr>
 				</thead>
 
