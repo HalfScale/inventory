@@ -47,15 +47,49 @@ $(function() {
 	function createTransactionDetailRow(data) {
 		var row = $('<tr>');
 		
-		[
-			data.product.code,
-			data.product.name,
-			data.product.price,
-			data.product.resellerPrice,
-			data.quantity,
-			data.isReseller
-		].forEach(function(text){
-			var td = $('<td>').text(text);
+		[	
+			{
+				text: data.product.code
+			},
+			{
+				text: data.product.name
+			},
+			{
+				text: data.quantity,
+				class: 'text-center'
+			},
+			{
+				text: data.product.price.toFixed(2).commafy(),
+				class: 'text-right'
+			},
+			{
+				text: data.product.resellerPrice.toFixed(2).commafy(),
+				class: 'text-right'
+			},
+			{
+				text: data.isReseller,
+				class: 'text-center',
+				type: 'badge'
+			}
+		].forEach(function(col){
+			var td = $('<td>');
+			
+			if (col.type === 'badge') {
+				if (col.text) {
+					$('<span>', {
+						class: 'badge badge-success',
+						text: 'Yes'
+					}).appendTo(td);
+				}else {
+					$('<span>', {
+						class: 'badge badge-danger',
+						text: 'No'
+					}).appendTo(td);
+				}
+			}else {
+				td.text(col.text);
+			}
+			td.addClass(col.class ? col.class : '');
 			td.appendTo(row);
 		});
 		
