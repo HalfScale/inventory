@@ -1,78 +1,78 @@
 $(function () {
-	var brandAddModal = $('#brandAddModal'),
-			brandUpdateModal = $('#brandUpdateModal'),
-			brandDeleteModal = $('#brandDeleteModal'),
-			brandTable = $('#brandTable'),
-			brandAddBtn = $('#brandAddBttn'),
-			brandAddSaveBtn = $('#brandAddSave'),
-			brandUpdateSaveBtn = $('#brandUpdateSave'),
-			brandDeleteSaveBtn = $('#brandDeleteSave');
+	var brandTable = $('#brandTable'),
+			brandAddBtn = $('#brandAddBttn');
+
+	var selectedBrand = null;
 
 	brandAddBtn.on('click', function () {
-		brandAddModal.find('form').trigger('reset');
 		brandAddModal.modal('show');
 	});
 
-	brandAddSaveBtn.on('click', function () {
-		brandAddModal.find('form .dummy-submit').click();
-	});
-
-	brandUpdateSaveBtn.on('click', function () {
-		brandUpdateModal.find('form .dummy-submit').click();
-	});
-
-	brandDeleteSaveBtn.on('click', function () {
-		brandDeleteModal.find('form .dummy-submit').click();
-		console.log('form', brandDeleteModal.find('form .dummy-submit'));
-	});
-
-	brandAddModal.find('form').on('submit', function (e) {
-		e.preventDefault();
-		var fd = $(this).serializeForm();
-		$.post($g.root_path + 'brand.create', fd).done(function (result) {
-			console.log('result', result);
+	var brandAddModal = $('#brandAddModal').standardDialog({
+		title: 'Add Category',
+		ajax: function (fd) {
+			return $.post($g.root_path + 'brand.create', fd);
+		},
+		done: function (result, modal) {
 			brandTable.DataTable().ajax.reload();
-			brandAddModal.modal('hide');
+			modal.modal('hide');
 			sysAlert({
 				text: result.response,
 				delay: 2000
 			});
-
-		});
+		}
 	});
 
-	brandUpdateModal.find('form').on('submit', function (e) {
-		e.preventDefault();
-		var fd = $(this).serializeForm();
-		$.post($g.root_path + 'brand.update', fd).done(function (result) {
-//			console.log('result', result);
+	var brandUpdateModal = $('#brandUpdateModal').standardDialog({
+		title: 'Update Brand',
+		onOpen: function () {
+			if (selectedBrand) {
+				brandUpdateModal.find('form').fillForm({
+					source: selectedBrand,
+					filter: function (key, val, elem) {
+						if (key === 'status') {
+							elem.val(val ? 1 : 0);
+						}
+					}
+				});
+			}
+		},
+		ajax: function (fd) {
+			return $.post($g.root_path + 'brand.update', fd);
+		},
+		done: function (result, modal) {
 			brandTable.DataTable().ajax.reload();
-			brandUpdateModal.modal('hide');
+			modal.modal('hide');
 			sysAlert({
 				text: result.response,
 				delay: 2000
 			});
+		}
+	});
 
+	brandTable.on('click', '.brandEditBtn', function () {
+		selectedBrand = $(this).parents('tr').data('brand.row.data');
+		brandUpdateModal.modal('show');
+	});
+
+	brandTable.on('click', '.brandDeleteBtn', function () {
+		selectedBrand = $(this).parents('tr').data('brand.row.data');
+		sysConfirm({
+			title: 'Delete Brand',
+			text: 'Are you sure you want to delete this entry?',
+			ok: function (modal) {
+				$.post($g.root_path + 'brand.delete', selectedBrand).done(function (result) {
+					brandTable.DataTable().ajax.reload();
+					modal.modal('hide');
+					sysAlert({
+						text: result.response,
+						delay: 2000
+					});
+				});
+			}
 		});
 	});
 
-	brandDeleteModal.find('form').on('submit', function (e) {
-		console.log('submitting');
-		e.preventDefault();
-		var fd = $(this).serializeForm();
-		$.post($g.root_path + 'brand.delete', fd).done(function (result) {
-//			console.log('result', result);
-			brandTable.DataTable().ajax.reload();
-			brandDeleteModal.modal('hide');
-			sysAlert({
-				text: result.response,
-				delay: 2000
-			});
-		});
-	});
-	$.get($g.root_path + 'brand.getAll').done(function (result) {
-		console.log('brand.getAll', result);
-	});
 	brandTable.DataTable({
 		ajax: {
 			url: $g.root_path + 'brand.getAll',
@@ -123,32 +123,5 @@ $(function () {
 			$(row).addClass('brandRow')
 					.data('brand.row.data', data);
 		}
-	});
-
-	brandTable.on('click', '.brandEditBtn', function () {
-		var data = $(this).parents('tr').data('brand.row.data');
-
-		brandUpdateModal.find('form').fillForm({
-			source: data,
-			filter: function (key, value, elem) {
-				if (key === 'status') {
-					var statusValue = value ? 1 : 0;
-					elem.val(statusValue);
-				}
-			}
-		});
-
-		brandUpdateModal.trigger('reset');
-		brandUpdateModal.modal('show');
-	});
-
-	brandTable.on('click', '.brandDeleteBtn', function () {
-		var data = $(this).parents('tr').data('brand.row.data');
-
-		brandDeleteModal.find('form').fillForm({
-			source: data
-		});
-
-		brandDeleteModal.modal('show');
 	});
 });

@@ -8,9 +8,7 @@ $(function () {
 	categoryAddBtn.on('click', function () {
 		categoryAddModal.modal('show');
 	});
-	$.get($g.root_path + 'category.getAll').done(function (result) {
-		console.log('getAll', result);
-	});
+	
 	categoryTable.DataTable({
 		ajax: {
 			url: $g.root_path + 'category.getAll',

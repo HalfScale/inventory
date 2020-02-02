@@ -86,4 +86,20 @@ public class CategoryDao {
 			pstmt.executeUpdate();
 		}
 	}
+	
+	public static List<Category> getAllActive(Connection con) throws SQLException {
+		String sql = "select * from `category` where status = 1";
+		List<Category> categories = new ArrayList<>();
+
+		try (PreparedStatement pstmt = con.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
+
+			while (rs.next()) {
+				Category category = CategoryDao.getById(con, rs.getInt(1));
+				categories.add(category);
+			}
+		}
+
+		return categories;
+	}
 }

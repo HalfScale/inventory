@@ -10,7 +10,7 @@ $(function () {
 
     posProductTable.DataTable({
         ajax: {
-            url: $g.root_path + 'product.getAll',
+            url: $g.root_path + 'product.getAllActive',
             dataSrc: 'data'
         },
         columns: [
@@ -51,7 +51,7 @@ $(function () {
 
         var tbody = checkOutTable.find('tbody');
 
-        if (!posProductEntries.includes(data.id)) {
+        if (!posProductEntries.includes(data.id) && data.stock !== 0) {
             posProductEntries.push(data.id);
 
             sysConfirm({
@@ -107,6 +107,7 @@ $(function () {
             posProductTable.DataTable().ajax.reload();
             checkOutTable.find('tbody').empty();
             checkoutTotal.text('Total: 0.00');
+			posProductEntries = [];
             modal.modal('hide');
             sysAlert({
                 text: result.response,

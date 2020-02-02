@@ -21,7 +21,24 @@ $(function () {
 			{data: 'role.name'},
 			{data: 'username'},
 			{data: 'email'},
-			{data: 'status'}
+			{
+				data: 'status',
+				width: '7em',
+				className: 'text-center',
+				render: function (data) {
+					if (data) {
+						return $('<span>', {
+							class: 'badge badge-success',
+							text: 'Active'
+						}).prop('outerHTML');
+					}
+
+					return $('<span>', {
+						class: 'badge badge-danger',
+						text: 'Inactive'
+					}).prop('outerHTML'); 
+				}
+			}
 		],
 		createdRow: function (row, data) {
 			$(row).addClass('userRow clicky')
