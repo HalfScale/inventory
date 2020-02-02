@@ -88,5 +88,21 @@ public class BrandDao {
 			pstmt.executeUpdate();
 		}
 	}
+	
+	public static List<Brand> getAllActive(Connection con) throws SQLException {
+		String sql = "select * from `brand` where status = 1";
+		List<Brand> brands = new ArrayList<>();
+		
+		try (PreparedStatement pstmt = con.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
+
+			while (rs.next()) {
+				Brand brand = BrandDao.getById(con, rs.getInt(1));
+				brands.add(brand);
+			}
+		}
+
+		return brands;
+	}
 
 }

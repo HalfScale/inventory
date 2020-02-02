@@ -1,9 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="n" tagdir="/WEB-INF/tags/topnav" %>
 <!DOCTYPE html>
 <t:system_page title="Category">
 	<jsp:attribute name="head">
 
+    </jsp:attribute>
+	
+	<jsp:attribute name="top_nav_link">
+        <n:prev title="Home" link="../"/>
+        <n:curr title="Category"/>
     </jsp:attribute>
 
     <jsp:attribute name="post_body">
@@ -32,7 +38,7 @@
         </table>
 
 		<!--Modal-->
-		<div id="categoryAddModal">
+		<div id="categoryAddModal" class="hidden-widget">
 			<form>
 				<div class="form-group">
 					<label for="">Name</label>
@@ -52,7 +58,7 @@
 			</form>
 		</div>
 
-		<div id="categoryUpdateModal">
+		<div id="categoryUpdateModal" class="hidden-widget">
 			<form>
 				<div class="hidden-widget">
 					<input type="text" class="id" name="id">

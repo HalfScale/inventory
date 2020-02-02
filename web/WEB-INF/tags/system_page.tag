@@ -1,6 +1,7 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
 <%@attribute name="title" %>
 <%@attribute name="head" fragment="true" %>
+<%@attribute name="top_nav_link" fragment="true" %>
 <%@attribute name="post_body" fragment="true" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <html>
@@ -12,6 +13,9 @@
 
     <body>
         <t:system_sidenav>
+            <jsp:attribute name="top_nav">
+				<jsp:invoke fragment="top_nav_link"/>
+            </jsp:attribute>
             <jsp:attribute name="content">
                 <jsp:doBody/>
             </jsp:attribute>

@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import system.bean.User;
 import system.dao.UserController;
 import system.dao.UserDao;
+import system.exception.MyException;
 
 /**
  *
@@ -106,20 +107,28 @@ public class WebLogin extends HttpServlet {
                 
                 User user = UserDao.getByUsernameAndPassword(con, username, password);
                 if (user != null) {
-					UserController userController = new UserController();
                     logger.debug("User " + user.getFirstName() + " " + user.getLastName() + " logging in...");
-                    request.getSession().setAttribute("active_user", user);
-                    result.put("status", 0);
-                    result.put("response", "login succesful!");
+					
+					if (user.getStatus()) {
+						request.getSession().setAttribute("active_user", user);
+						result.put("status", 0);
+						result.put("response", "login succesful!");
+					}else {
+						throw new MyException("User is inactive. Check with your administrator.", 2);
+					}
+					
                 } else {
                     logger.debug("User does not exist!");
-                    result.put("status", 1);
-                    result.put("response", "Incorrect username and password!");
+					throw new MyException("Incorrect username or password! Try again.", 3);
                 }
 
-            } catch (SQLException ex) {
-                logger.debug(ex.getMessage(), ex);
-                result.put("status", 1);
+            } catch(MyException ex) {
+			
+                result.put("status", ex.getErrorCode());
+                result.put("response", ex.getMessage());
+			}catch (SQLException ex) {
+				
+                result.put("status", ex.getErrorCode());
                 result.put("response", ex.getMessage());
             } catch (Exception ex) {
                 logger.debug(ex.getMessage(), ex);

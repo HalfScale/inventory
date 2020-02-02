@@ -20,6 +20,11 @@
     margin-top: 10px;
 }
 
+/*text colors*/
+.sys-text-purple, .sys-text-purple:hover {
+	color: #6d7fcc;
+}
+
 /*cursors*/
 .clicky{
 	cursor: pointer;

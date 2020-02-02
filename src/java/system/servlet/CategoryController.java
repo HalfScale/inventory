@@ -31,7 +31,14 @@ import system.dao.CategoryDao;
  */
 @WebServlet(
 		name = "CategoryController",
-		urlPatterns = {"/category.create", "/category.get", "/category.getAll", "/category.update", "/category.delete"}
+		urlPatterns = {
+			"/category.create", 
+			"/category.get", 
+			"/category.getAll", 
+			"/category.getAllActive", 
+			"/category.update", 
+			"/category.delete"
+		}
 )
 public class CategoryController extends HttpServlet {
 
@@ -75,6 +82,9 @@ public class CategoryController extends HttpServlet {
 					break;
 				case "/category.getAll":
 					this.getAllCategory(con, result);
+					break;
+				case "/category.getAllActive":
+					this.getAllActiveCategory(con, result);
 					break;
 				case "/category.update":
 					this.updateCategory(con, result, request);
@@ -130,6 +140,13 @@ public class CategoryController extends HttpServlet {
 		CategoryDao.delete(con, id);
 		result.put("status", 0);
 		result.put("response", "Delete successful!");
+	}
+	
+	private void getAllActiveCategory(Connection con, Map result) throws SQLException {
+		List<Category> categories = CategoryDao.getAllActive(con);
+		result.put("data", categories);
+		result.put("status", 0);
+		result.put("response", "Query successful!");
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -110,4 +110,20 @@ public class ProductDao {
 			pstmt.executeUpdate();
 		}
 	}
+	
+	public static List<Product> getAllActive(Connection con) throws SQLException {
+		String sql = "select * from `product` where status = 1";
+		List<Product> products = new ArrayList<>();
+
+		try (PreparedStatement pstmt = con.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
+
+			while (rs.next()) {
+				Product product = ProductDao.getById(con, rs.getInt(1));
+				products.add(product);
+			}
+		}
+
+		return products;
+	}
 }

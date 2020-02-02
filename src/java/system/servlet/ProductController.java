@@ -49,7 +49,15 @@ import system.util.Util;
  */
 @WebServlet(
         name = "ProductController",
-        urlPatterns = {"/product.create", "/product.get", "/product.getAll", "/product.update", "/product.delete", "/product.checkout"}
+        urlPatterns = {
+			"/product.create", 
+			"/product.get", 
+			"/product.getAll", 
+			"/product.getAllActive", 
+			"/product.update", 
+			"/product.delete", 
+			"/product.checkout"
+		}
 )
 public class ProductController extends HttpServlet {
 
@@ -93,6 +101,9 @@ public class ProductController extends HttpServlet {
                     break;
                 case "/product.getAll":
                     this.getAllProduct(con, result);
+                    break;
+                case "/product.getAllActive":
+                    this.getAllActiveProduct(con, result);
                     break;
                 case "/product.update":
                     this.updateProduct(con, result, request);
@@ -207,6 +218,12 @@ public class ProductController extends HttpServlet {
             productTransactionDetail.setProduct(product);
             productTransactionDetail.setQuantity(quantity);
             productTransactionDetail.setIsReseller(isReseller);
+			
+			//After the transaction we should update the count of stocks for the
+			//checked out item
+			int newProductStock = product.getStock() - quantity;
+			product.setStock(newProductStock);
+			ProductDao.update(con, product);
 
             ProductTransactionDetailDao.create(con, productTransactionDetail);
         }
@@ -214,6 +231,13 @@ public class ProductController extends HttpServlet {
         result.put("response", "Checkout successful!");
         logger.debug("Checkout successful!");
     }
+	
+	private void getAllActiveProduct(Connection con, Map result) throws SQLException {
+		List<Product> products = ProductDao.getAllActive(con);
+		result.put("data", products);
+		result.put("status", 0);
+		result.put("response", "Query successful!");
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

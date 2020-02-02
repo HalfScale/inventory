@@ -163,8 +163,8 @@ $(function () {
     function getAllBrands() {
         var brandElem = $('.brand');
 
-        $.get($g.root_path + 'brand.getAll').done(function (result) {
-//			console.log('getAllBrands', result);
+        $.get($g.root_path + 'brand.getAllActive').done(function (result) {
+//			console.log('brand getAllActive', result);
             brandElem.clearOptions('Select a brand');
             result.data.forEach(function (brand) {
                 brandElem.createOption(brand.id, brand.name);
@@ -175,7 +175,7 @@ $(function () {
     function getAllCategories() {
         var categoryElem = $('.category');
 
-        $.get($g.root_path + 'category.getAll').done(function (result) {
+        $.get($g.root_path + 'category.getAllActive').done(function (result) {
 //			console.log('getAllCategories', result);
             categoryElem.clearOptions('Select a category');
             result.data.forEach(function (category) {
