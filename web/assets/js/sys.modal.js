@@ -149,18 +149,21 @@
         form.on('submit', function (e) {
             e.preventDefault();
             var fd = $(this).serializeForm();
-            var ajax = {};
+            var ajaxRequest = {};
 
             if ($.isFunction(_args.ajax)) {
-                ajax = _args.ajax(fd, form);
+                ajaxRequest = _args.ajax(fd, form);
             }
-
-            $.when(ajax).done(function (result) {
-                console.log('result', result);
-                if ($.isFunction(_args.done)) {
-                    _args.done(result, $this);
-                }
-            });
+			
+			$this.modal('hide');
+			processWrapper({
+				ajax: function () {
+					return ajaxRequest;
+				},
+				done: function (result, modal) {
+                    _args.done(result, modal);
+				}
+			});
         });
 
         return $this;
