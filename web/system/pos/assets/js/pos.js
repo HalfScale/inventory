@@ -6,8 +6,8 @@ $(function () {
             checkoutTotal = $('#checkoutTotal'),
             checkOutBttn = $('#posCheckOutBttn');
 
-    getTransactionTypes();
-
+	init();
+    
     posProductTable.DataTable({
         ajax: {
             url: $g.root_path + 'product.getAllActive',
@@ -60,16 +60,17 @@ $(function () {
                 okText: 'Yes',
                 ok: function (modal) {
                     createCheckOutRow(data, true).appendTo(tbody);
+					checkOutBttn.prop('disabled', false);
                     checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2).commafy());
                     modal.modal('hide');
                 },
                 cancelText: 'No',
                 cancel: function () {
+					checkOutBttn.prop('disabled', false);
                     createCheckOutRow(data, false).appendTo(tbody);
                     checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2).commafy());
                 },
                 close: function () {
-                    console.log('close method invoked!');
                     removeProductEntry(data.id);
                 }
             });
@@ -119,10 +120,11 @@ $(function () {
     checkOutBttn.on('click', function () {
         posCheckoutDialog.modal('show');
     });
-
-    function checkout() {
-
-    }
+	
+	function init() {
+		getTransactionTypes();
+		checkOutBttn.prop('disabled', true);
+	}
 
     function getTransactionTypes() {
         $.get($g.root_path + 'transactionType.getAll').done(function (result) {
@@ -172,6 +174,12 @@ $(function () {
                     if (val === '0') {
                         removeProductEntry(data.id, row);
                     }
+					
+					if (posProductEntries.length === 0) {
+						checkOutBttn.prop('disabled', true);
+					}else {
+						checkOutBttn.prop('disabled', false);
+					}
 
                     checkoutTotal.text('Total: ' + computeCheckoutTotal().toFixed(2).commafy());
                 });
