@@ -1,0 +1,17 @@
+.dashboard-item{
+	height: 150px;
+	position: relative;
+	overflow: hidden;
+	-webkit-box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.75);
+	box-shadow: 0px 5px 10px 1px rgba(0,0,0,0.75);
+}
+
+.dashboard-footer {
+	height: 45%;
+	width: 100%;
+	background: #6d7fcc;
+	position: absolute;
+	bottom: 0;
+	transform: translate(0px, 24px) skew(0deg, -8deg);
+}
