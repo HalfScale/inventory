@@ -35,7 +35,14 @@ import system.exception.MyException;
  */
 @WebServlet(
 		name = "TransactionController", 
-		urlPatterns = {"/productTransaction.create", "/productTransaction.get", "/productTransaction.getAll", "/productTransaction.update", "/productTransaction.delete"}
+		urlPatterns = {
+			"/productTransaction.create", 
+			"/productTransaction.get", 
+			"/productTransaction.getAll", 
+			"/productTransaction.update", 
+			"/productTransaction.delete",
+			"/productTransaction.getAllDetails"
+		}
 )
 public class ProductTransactionController extends HttpServlet {
 	
@@ -79,6 +86,9 @@ public class ProductTransactionController extends HttpServlet {
 					break;
 				case "/productTransaction.getAll":
 					this.getAllProductTransaction(con, result);
+					break;
+				case "/productTransaction.getAllDetails":
+					this.getAllProductDetails(con, result);
 					break;
 				case "/productTransaction.update":
 //					this.updateProduct(con, result, request);
@@ -158,6 +168,12 @@ public class ProductTransactionController extends HttpServlet {
 //		ProductTransactionDao.delete(con, id);
 //		result.put("response", "Delete successful!");
 //	}
+	
+	private void getAllProductDetails(Connection con, Map result) throws SQLException {
+		List<ProductTransactionDetail> details = ProductTransactionDetailDao.getAll(con);
+		result.put("data", details);
+		result.put("response", "Query successful!");
+	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**

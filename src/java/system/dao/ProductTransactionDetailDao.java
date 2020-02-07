@@ -24,6 +24,7 @@ public class ProductTransactionDetailDao {
 
 	private static final String SQL_CREATE_PRODUCT_TRANSACTION_DETAIL = "insert into `product_transaction_detail` (product_transaction_id, product_id, quantity, is_reseller_price) VALUES (?, ?, ?, ?)";
 	private static final String SQL_GET_BY_PRODUCT_TRANSACTION_ID = "select * from `product_transaction_detail` where `product_transaction_id` = ?";
+	private static final String SQL_GET_ALL_PRODUCT_TRANSACTION_DETAIL = "select * from `product_transaction_detail`";
 	private static final String SQL_GET_TABLE_BY_ID = "select * from `product_transaction_detail` where id = ?";
 
 	public static void create(Connection con, ProductTransactionDetail productTransactionDetail) throws SQLException {
@@ -64,6 +65,20 @@ public class ProductTransactionDetailDao {
 		}
 
 		return productTransactionDetail;
+	}
+	
+	public static List<ProductTransactionDetail> getAll(Connection con) throws SQLException {
+		List<ProductTransactionDetail> transactionDetails = new ArrayList<>();
+		try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_ALL_PRODUCT_TRANSACTION_DETAIL);
+				ResultSet rs = pstmt.executeQuery()) {
+
+			while (rs.next()) {
+				ProductTransactionDetail transactionDetail = ProductTransactionDetailDao.getById(con, rs.getInt(1));
+				transactionDetails.add(transactionDetail);
+			}
+		}
+
+		return transactionDetails;
 	}
 
 	public static List<ProductTransactionDetail> getByProductTransactionId(Connection con, int id) throws SQLException {

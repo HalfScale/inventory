@@ -36,7 +36,13 @@ import system.util.Util;
  */
 @WebServlet(
 		name = "UserController",
-		urlPatterns = {"/user.create", "/user.get", "/user.getAll", "/user.update", "/user.delete"}
+		urlPatterns = {
+			"/user.create", 
+			"/user.get", 
+			"/user.getAll", 
+			"/user.update", 
+			"/user.delete"
+		}
 )
 public class UserController extends HttpServlet {
 
@@ -125,7 +131,9 @@ public class UserController extends HttpServlet {
 	}
 
 	private void getAllUser(Connection con, Map result) throws SQLException {
+		Console.log("inside getAllUser");
 		List<User> users = UserDao.getAll(con);
+		Console.log("users", users.toString());
 		result.put("data", users);
 		result.put("status", 0);
 		result.put("response", "Query successful!");

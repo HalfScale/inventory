@@ -16,7 +16,7 @@
 
         <ul class="list-unstyled components">
             <p>${active_user.firstName} ${active_user.lastName}</p>
-            <li class="active">
+<!--            <li class="active">
                 <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="sys-sidenav-link dropdown-toggle">Dash Board</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
@@ -29,7 +29,8 @@
                         <a href="#" class="sys-sidenav-link">Home 3</a>
                     </li>
                 </ul>
-            </li>
+            </li>-->
+			<t:nav_link title="Home" sprite="user" module="-1"/>
 			<t:nav_link title="User" sprite="user" module="100" link="user/" />
 			<t:nav_link title="Role" sprite="users" module="101" link="user/role.jsp" />
 			<t:nav_link title="Product" sprite="boxes" module="200" link="product/" />
