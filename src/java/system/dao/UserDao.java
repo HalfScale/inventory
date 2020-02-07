@@ -74,7 +74,10 @@ public class UserDao {
 				user.setRole(RoleDao.getRoleByUser(con, rs.getInt(1)));
                 users.add(user);
             }
-        }
+        }catch(SQLException e) {
+			e.printStackTrace();
+			throw new SQLException();
+		}
 
         return users;
     }
