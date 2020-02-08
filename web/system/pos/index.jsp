@@ -8,7 +8,7 @@
     </jsp:attribute>
 
 	<jsp:attribute name="top_nav_link">
-		<n:prev title="Home" link="../"/>
+		<n:prev title="Dashboard" link="../"/>
 		<n:curr title="POS"/>
 	</jsp:attribute>
 

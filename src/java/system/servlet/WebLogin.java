@@ -22,7 +22,6 @@ import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import system.bean.User;
-import system.dao.UserController;
 import system.dao.UserDao;
 import system.exception.MyException;
 

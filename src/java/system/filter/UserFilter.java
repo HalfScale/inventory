@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import system.bean.User;
+import system.servlet.UserController;
 import system.dao.UserDao;
 import system.exception.MyException;
 import system.logger.Console;
@@ -135,8 +136,8 @@ public class UserFilter implements Filter {
 			//We query the current user so we can change the values
 			//that is been changed in the role module to accomodate the access of users.
 //			User anotherUser = UserDao.getById(con, user.getId());
-			Console.log("User Filter user not null!");
-			session.setAttribute(User.ATTR_ACTIVE_USER, user);
+//			UserController controller = new UserController();
+//			session.setAttribute(User.ATTR_ACTIVE_USER, controller.getActiveUser(user.getId()));
 
 			chain.doFilter(request, response);
 		} catch (MyException e) {

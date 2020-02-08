@@ -38,12 +38,12 @@ public class UserRoleDao {
 
         try (PreparedStatement pstmt = con.prepareStatement(SQL_GET_USER_ROLE_BY_ID)) {
                 pstmt.setInt(1, id);
-                rs = pstmt.executeQuery()
-
-                if(rs.next()) {
-                    userRole.setId(rs.getInt(1));
-                    userRole.setName(rs.getString(2));
-                }
+//                rs = pstmt.executeQuery();
+//
+//                if(rs.next()) {
+//                    userRole.setId(rs.getInt(1));
+//                    userRole.setName(rs.getString(2));
+//                }
         }
 
         return userRole;

@@ -182,18 +182,19 @@ function sysAlert(options) {
 	}, settings.delay);
 }
 
-function sysConfirm(args) {
+function sysConfirm(options) {
 	'use strict';
 
-	var _args = $.extend({
+	var settings = $.extend({
 		title: 'Confirm',
 		text: 'Do you want to confirm this action?',
 		onOpen: null,
 		close: null,
 		ok: null,
 		okText: 'Confirm',
-		cancelText: 'Close'
-	}, args);
+		cancelText: 'Close',
+		hideConfirmBtn: false
+	}, options);
 
 	var modal = $('<div>').attr({
 		tabIndex: -1,
@@ -212,10 +213,10 @@ function sysConfirm(args) {
 	var confirmBtn = $('<button>', {
 		class: 'btn btn-primary',
 		type: 'button',
-		text: _args.okText
+		text: settings.okText
 	}).on('click', function () {
-		if ($.isFunction(_args.ok)) {
-			_args.ok(modal);
+		if ($.isFunction(settings.ok)) {
+			settings.ok(modal);
 		}
 	});
 
@@ -226,11 +227,11 @@ function sysConfirm(args) {
 		'data-dismiss': 'modal',
 		'aria-label': 'close'
 	}).on('click', function () {
-		if ($.isFunction(_args.close)) {
-			_args.close();
+		if ($.isFunction(settings.close)) {
+			settings.close();
 		}
 	});
-
+	
 	$('<span>', {
 		'aria-hidden': true,
 		html: '&times;'
@@ -244,7 +245,7 @@ function sysConfirm(args) {
 					el: '<h5>',
 					attr: {
 						class: 'modal-title',
-						text: _args.title
+						text: settings.title
 					}
 				}
 			]
@@ -255,7 +256,7 @@ function sysConfirm(args) {
 				{
 					el: '<span>',
 					attr: {
-						text: _args.text
+						text: settings.text
 					}
 				}
 			]
@@ -269,7 +270,7 @@ function sysConfirm(args) {
 						class: 'btn btn-secondary',
 						type: 'button',
 						'data-dismiss': 'modal',
-						text: _args.cancelText
+						text: settings.cancelText
 					}
 				}
 			]
@@ -293,15 +294,17 @@ function sysConfirm(args) {
 				//This is only for the cancel button of this confirm dialog
 				if (section.class === 'modal-footer') {
 					elem.on('click', function () {
-						if ($.isFunction(_args.cancel)) {
-							_args.cancel(modal);
+						if ($.isFunction(settings.cancel)) {
+							settings.cancel(modal);
 						}
 					});
 				}
 			});
 		}
 		if (section.class === 'modal-footer') {
-			confirmBtn.appendTo(div);
+			if (!options.hideConfirmBtn) {
+				confirmBtn.appendTo(div);
+			}
 		}
 
 		div.appendTo(content);
@@ -358,14 +361,12 @@ function processWrapper(options) {
 	dialog.appendTo(modal);
 	modal.modal('show');
 
-	var ajax = {};
 	if ($.isFunction(settings.ajax)) {
-		ajax = settings.ajax();
+		$.when(settings.ajax()).done(function (result) {
+			if ($.isFunction(settings.done)) {
+				settings.done(result, modal);
+			}
+		});
 	}
 	
-	$.when(ajax).done(function (result) {
-		if ($.isFunction(settings.done)) {
-			settings.done(result, modal);
-		}
-	});
 }
