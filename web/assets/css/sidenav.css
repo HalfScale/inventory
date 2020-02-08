@@ -108,3 +108,8 @@ a.sys-sidenav-link[data-toggle="collapse"]{
 	}
 }
 
+.user-avatar{
+	width: 200px;
+	height: 200px;
+}
+
