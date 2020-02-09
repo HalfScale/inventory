@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="n" tagdir="/WEB-INF/tags/topnav" %>
 <!DOCTYPE html>
-<t:system_page title="Role">
+<t:system_page title="Role" pagetag="role">
     <jsp:attribute name="head">
 
     </jsp:attribute>

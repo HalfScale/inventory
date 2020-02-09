@@ -1,6 +1,8 @@
 html,
 body {
   height: 100%;
+  background: -webkit-linear-gradient(to right, #a8c0ff, #3f2b96); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #a8c0ff, #3f2b96); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 body {
@@ -18,6 +20,11 @@ body {
   max-width: 420px;
   padding: 15px;
   margin: auto;
+}
+
+.sign-in-header{
+	color: #fff;
+	font-size: 180%;
 }
 
 .form-label-group {

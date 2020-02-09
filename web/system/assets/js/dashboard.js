@@ -3,13 +3,14 @@ $(function () {
 	var totalInventoryProductsLabel = $('#totalInventoryProductsLabel'),
 			totalSoldProductsLabel = $('#totalSoldProductsLabel'),
 			dashBoardTable = $('#dashBoardTable'),
+			profileReturn = $('#profileReturn'),
 			totalUsers = $('#totalUsers');
 
 	init();
 
 	$('.dashboard-item').on('click', function () {
 		var data = $(this).data('ref');
-		
+
 		if (data != null) {
 			window.open(data, '_blank');
 		}
@@ -51,7 +52,7 @@ $(function () {
 			}
 		]
 	});
-	
+
 	$('#dashBoardTable_wrapper').addClass('dashboard-table-margin');
 
 	function init() {
@@ -59,9 +60,30 @@ $(function () {
 		getTotalSoldProducts();
 		getTotalUsers();
 		
-		if (window.location.hash === '') {
-			
-		}
+		profileReturn.on('click', function (e) {
+			e.preventDefault();
+			window.location.hash = '';
+		});
+		
+		hashInit();
+	}
+
+	function hashInit() {
+		$(window).on('hashchange', function () {
+			var profile = $('#userProfile');
+			var main = $('main');
+
+			var hash = window.location.hash.substring(1);
+			if (hash === 'profile') {
+				profile.show();
+				main.hide();
+			} else {
+				main.show();
+				profile.hide();
+			}
+		});
+		
+		$(window).trigger('hashchange');
 	}
 
 	function getTotalInventoryProducts() {
