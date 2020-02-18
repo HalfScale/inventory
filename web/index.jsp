@@ -10,14 +10,13 @@
         <script src="assets/js/jQuery/jquery-3.4.1.min.js"></script>
         <script src="assets/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/util.js"></script>
-        <script src="assets/js/login.js"></script>
         <title>Login</title>
     </head>
     <body>
         
         <form class="form-signin">
             <div class="text-center mb-4">
-                <h1 class="h3 mb-3 font-weight-normal">Inventory System</h1>
+                <h1 class="h3 mb-3 font-weight-normal sign-in-header">Sign In</h1>
                 <p></p>
             </div>
 
@@ -30,10 +29,17 @@
                 <input type="password" id="inputPassword" class="form-control" name="pass" placeholder="Password" required>
                 <label for="inputPassword">Password</label>
             </div>
+			
+			<div id="statusBox" class="" role="alert">
+				
+			</div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+				Sign in
+			</button>
         </form>
         
+		<script src="assets/js/login.js"></script>
     </body>
 </html>
 

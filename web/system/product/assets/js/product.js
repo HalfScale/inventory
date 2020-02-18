@@ -13,13 +13,57 @@ $(function () {
         columns: [
             {data: 'code'},
             {data: 'name'},
-            {data: 'price'},
-            {data: 'stock'},
-            {data: 'status'}, {
+            {
+				data: 'price',
+				className: 'text-right',
+				render: function (data) {
+					return Number(data).toFixed(2).commafy();
+				}
+			},
+            {
+				data: 'stock',
+				width: '5em',
+				className: 'text-center',
+				render: function (data) {
+					return String(data).commafy();
+				}
+			},
+            {
+				data: 'status',
+				width: '7em',
+				className: 'text-center',
+				render: function(data) {
+					if (data) {
+						return $('<span>', {
+							class: 'badge badge-success',
+							text: 'Active'
+						}).prop('outerHTML');
+					}
+
+					return $('<span>', {
+						class: 'badge badge-danger',
+						text: 'Inactive'
+					}).prop('outerHTML');
+				}
+			}, 
+			{
                 data: null,
+				width: '10em',
+				className: 'text-center',
                 render: function () {
-                    return '<button type="button" class="productEditBtn btn btn-outline-warning btn-sm">' + 'Edit' + '</button>' +
-                            '<button type="button" class="productDeleteBtn btn btn-outline-danger btn-sm">' + 'Delete' + '</button>';
+					var editBtn = $('<button>', {
+						type: 'button',
+						class: 'productEditBtn btn btn-outline-warning btn-sm',
+						text: 'Edit'
+					}).prop('outerHTML');
+
+					var deleteBtn = $('<button>', {
+						type: 'button',
+						class: 'productDeleteBtn btn btn-outline-danger btn-sm',
+						text: 'Delete'
+					}).prop('outerHTML');
+
+					return editBtn + deleteBtn;
                 }
             }
         ],
@@ -119,8 +163,8 @@ $(function () {
     function getAllBrands() {
         var brandElem = $('.brand');
 
-        $.get($g.root_path + 'brand.getAll').done(function (result) {
-//			console.log('getAllBrands', result);
+        $.get($g.root_path + 'brand.getAllActive').done(function (result) {
+//			console.log('brand getAllActive', result);
             brandElem.clearOptions('Select a brand');
             result.data.forEach(function (brand) {
                 brandElem.createOption(brand.id, brand.name);
@@ -131,7 +175,7 @@ $(function () {
     function getAllCategories() {
         var categoryElem = $('.category');
 
-        $.get($g.root_path + 'category.getAll').done(function (result) {
+        $.get($g.root_path + 'category.getAllActive').done(function (result) {
 //			console.log('getAllCategories', result);
             categoryElem.clearOptions('Select a category');
             result.data.forEach(function (category) {

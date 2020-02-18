@@ -30,7 +30,6 @@
     <filter-mapping>
         <filter-name>UserFilter</filter-name>
         <servlet-name>UserFilter</servlet-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
+        <url-pattern>/system/*</url-pattern>
     </filter-mapping>
 </web-app>

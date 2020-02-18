@@ -13,7 +13,7 @@ p {
     color: #999;
 }
 
-a, a:hover, a:focus {
+a.sys-sidenav-link, a.sys-sidenav-link:hover, a.sys-sidenav-link:focus {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
@@ -49,23 +49,23 @@ a, a:hover, a:focus {
     padding: 10px;
 }
 
-#sidebar ul li a {
+#sidebar ul li a.sys-sidenav-link {
     padding: 10px;
     font-size: 1.1em;
     display: block;
 }
 
-#sidebar ul li a:hover {
+#sidebar ul li a.sys-sidenav-link:hover {
     color: #7386D5;
     background: #fff;
 }
 
-#sidebar ul li.active > a, a[aria-expanded="true"] {
+#sidebar ul li.active > a.sys-sidenav-link, a.sys-sidenav-link[aria-expanded="true"] {
     color: #fff;
     background: #6d7fcc;
 }
 
-ul ul a {
+ul ul a.sys-sidenav-link {
     font-size: 0.9em !important;
     padding-left: 30px !important;
     background: #6d7fcc;
@@ -75,7 +75,7 @@ ul ul a {
     margin-left: -250px;
 }
 
-a[data-toggle="collapse"]{
+a.sys-sidenav-link[data-toggle="collapse"]{
 	position: relative;
 }
 
@@ -99,6 +99,11 @@ a[data-toggle="collapse"]{
     margin: 0;
 }
 
+.navlink-active{
+	background: #fff;
+	color: #7386d5;
+}
+
 @media (max-width: 768px) {
 	#sidebar{
 		margin-left: -250px;
@@ -106,5 +111,16 @@ a[data-toggle="collapse"]{
 	#sidebar.active {
 		margin-left: 0;
 	}
+}
+
+.user-avatar{
+	transition: all 0.5s ease;
+	width: 200px;
+	height: 200px;
+}
+
+.user-avatar:hover{
+	-webkit-filter: blur(3px);
+	filter: blur(3px);
 }
 

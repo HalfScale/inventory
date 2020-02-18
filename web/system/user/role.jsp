@@ -1,9 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="n" tagdir="/WEB-INF/tags/topnav" %>
 <!DOCTYPE html>
-<t:system_page title="Role">
+<t:system_page title="Role" pagetag="role">
     <jsp:attribute name="head">
 
+    </jsp:attribute>
+	
+	<jsp:attribute name="top_nav_link">
+        <n:prev title="Dashboard" link="../"/>
+        <n:curr title="Role"/>
     </jsp:attribute>
 
     <jsp:attribute name="post_body">
@@ -31,7 +37,7 @@
         </table>
 
         <!--Modal-->
-        <div id="roleAddModal">
+        <div id="roleAddModal" class="hidden-widget">
             <form>
                 <div class="form-group">
                     <label for="">Name</label>
@@ -74,7 +80,7 @@
             </form>
         </div>
 
-        <div id="roleUpdateModal">
+        <div id="roleUpdateModal" class="hidden-widget">
             <form>
                 <div class="hidden-widget">
                     <input type="text" class="id" name="id">

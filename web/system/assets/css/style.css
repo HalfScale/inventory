@@ -1,0 +1,54 @@
+.dashboard-item{
+	transition: all 0.5s ease;
+	height: 150px;
+	position: relative;
+	overflow: hidden;
+}
+
+.dashboard-anim:hover{
+	transform: translate(0px, -9px);
+}
+
+.dashboard-item-label{
+	font-size: 124%;
+	padding: 3px;
+	color: #737a9b;
+	margin-left: 10px;
+}
+
+.dashboard-item-detail{
+	font-size: 283%;
+	margin-left: 20px;
+}
+
+.dashboard-footer {
+	height: 45%;
+	width: 100%;
+	background: #6d7fcc;
+	position: absolute;
+	bottom: 0;
+	transform: translate(0px, 24px) skew(0deg, -8deg);
+}
+
+.dashboard-table-margin{
+	margin-top: 25px;
+}
+
+.table-label-header{
+	color: #6d7fcc;
+	font-size: 130%;
+	margin-top: 37px;
+}
+
+#user-avatar{
+	width: 350px;
+	height: 350px;
+}
+
+#profileImageInput {
+	width: 350px;
+}
+
+.custom-file-label{
+	overflow: hidden;
+}

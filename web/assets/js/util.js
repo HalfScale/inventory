@@ -4,7 +4,7 @@
 		var settings = $.extend({
 			custom: null
 		}, opts);
-		
+
 		var $this;
 		var fd = {};
 
@@ -17,7 +17,7 @@
 		$this.serializeArray().forEach(function (obj) {
 			fd[obj.name] = obj.value;
 		});
-		
+
 		if ($.isFunction(settings.custom)) {
 			settings.custom(fd, $this);
 		}
@@ -39,13 +39,13 @@
 			}, args);
 
 			var $this;
-			
+
 			if ($(this).is('form')) {
 				$this = $(this);
 			} else {
 				$this = $(this).find('form');
 			}
-			
+
 			if (_args.source != null) {
 				Object.keys(_args.source).forEach(function (key) {
 					if (isPrimitive(_args.source[key])) {
@@ -120,18 +120,18 @@ function commafy(number) {
 	return n.join('.');
 }
 
-function sysAlert(args) {
+function sysAlert(options) {
 	'use strict';
 
 	var body = $('body #content');
-	var _args = $.extend({
+	var settings = $.extend({
 		text: 'Alert!',
 		delay: 1500,
 		type: 'light'
-	}, args);
+	}, options);
 
 	var defAlertClass = 'standard-alert alert alert-dismissible fade show text-center';
-	var alertType = 'alert-' + _args.type;
+	var alertType = 'alert-' + settings.type;
 
 	var alert = $('<div>', {
 		class: defAlertClass + ' ' + alertType,
@@ -142,7 +142,7 @@ function sysAlert(args) {
 		{
 			el: '<strong>',
 			attr: {
-				text: _args.text
+				text: settings.text
 			}
 		},
 		{
@@ -179,21 +179,22 @@ function sysAlert(args) {
 
 	setTimeout(function () {
 		alert.alert('close');
-	}, _args.delay);
+	}, settings.delay);
 }
 
-function sysConfirm(args) {
+function sysConfirm(options) {
 	'use strict';
 
-	var _args = $.extend({
+	var settings = $.extend({
 		title: 'Confirm',
 		text: 'Do you want to confirm this action?',
 		onOpen: null,
 		close: null,
 		ok: null,
 		okText: 'Confirm',
-		cancelText: 'Close'
-	}, args);
+		cancelText: 'Close',
+		hideConfirmBtn: false
+	}, options);
 
 	var modal = $('<div>').attr({
 		tabIndex: -1,
@@ -212,10 +213,10 @@ function sysConfirm(args) {
 	var confirmBtn = $('<button>', {
 		class: 'btn btn-primary',
 		type: 'button',
-		text: _args.okText
+		text: settings.okText
 	}).on('click', function () {
-		if ($.isFunction(_args.ok)) {
-			_args.ok(modal);
+		if ($.isFunction(settings.ok)) {
+			settings.ok(modal);
 		}
 	});
 
@@ -226,11 +227,11 @@ function sysConfirm(args) {
 		'data-dismiss': 'modal',
 		'aria-label': 'close'
 	}).on('click', function () {
-		if ($.isFunction(_args.close)) {
-			_args.close();
+		if ($.isFunction(settings.close)) {
+			settings.close();
 		}
 	});
-
+	
 	$('<span>', {
 		'aria-hidden': true,
 		html: '&times;'
@@ -244,7 +245,7 @@ function sysConfirm(args) {
 					el: '<h5>',
 					attr: {
 						class: 'modal-title',
-						text: _args.title
+						text: settings.title
 					}
 				}
 			]
@@ -255,7 +256,7 @@ function sysConfirm(args) {
 				{
 					el: '<span>',
 					attr: {
-						text: _args.text
+						text: settings.text
 					}
 				}
 			]
@@ -269,7 +270,7 @@ function sysConfirm(args) {
 						class: 'btn btn-secondary',
 						type: 'button',
 						'data-dismiss': 'modal',
-						text: _args.cancelText
+						text: settings.cancelText
 					}
 				}
 			]
@@ -293,15 +294,17 @@ function sysConfirm(args) {
 				//This is only for the cancel button of this confirm dialog
 				if (section.class === 'modal-footer') {
 					elem.on('click', function () {
-						if ($.isFunction(_args.cancel)) {
-							_args.cancel(modal);
+						if ($.isFunction(settings.cancel)) {
+							settings.cancel(modal);
 						}
 					});
 				}
 			});
 		}
 		if (section.class === 'modal-footer') {
-			confirmBtn.appendTo(div);
+			if (!options.hideConfirmBtn) {
+				confirmBtn.appendTo(div);
+			}
 		}
 
 		div.appendTo(content);
@@ -310,4 +313,60 @@ function sysConfirm(args) {
 	content.appendTo(dialog);
 	dialog.appendTo(modal);
 	modal.modal('show');
+}
+
+function processWrapper(options) {
+	'use strict';
+	
+	var settings = $.extend({
+		ajax: null,
+		done: null
+	}, options);
+
+	var modal = $('<div>').attr({
+		tabIndex: -1,
+		role: 'dialog',
+		'data-backdrop': 'static'
+	}).addClass('modal');
+
+	var dialog = $('<div>', {
+		class: 'modal-dialog',
+		role: 'document'
+	});
+
+	var content = $('<div>', {
+		class: 'modal-content'
+	});
+
+	var modalBody = $('<div>', {
+		class: 'modal-body'
+	}).appendTo(content);
+
+	var progressContainer = $('<div>', {
+		class: 'progress',
+		height: '50px'
+	}).appendTo(modalBody);
+
+	$('<div>', {
+		text: 'Saving...',
+		class: 'progress-bar progress-bar-striped progress-bar-animated w-100 fs-150 noselect',
+		role: 'progressbar',
+		'aria-valuenow': '75',
+		'aria-valuemin': '0',
+		'aria-valuemax': '100'
+	}).appendTo(progressContainer);
+
+
+	content.appendTo(dialog);
+	dialog.appendTo(modal);
+	modal.modal('show');
+
+	if ($.isFunction(settings.ajax)) {
+		$.when(settings.ajax()).done(function (result) {
+			if ($.isFunction(settings.done)) {
+				settings.done(result, modal);
+			}
+		});
+	}
+	
 }

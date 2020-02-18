@@ -1,44 +1,32 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@tag description="System Side Navigation" pageEncoding="UTF-8"%>
 
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="title"%>
-<%@attribute name="content" fragment="true" %>
+<%@attribute name="pagetag" type="java.lang.String"%>
+<%@attribute name="content" fragment="true" required="true" %>
+<%@attribute name="top_nav" fragment="true" required="true" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <div class="wrapper">
-
+	<c:out value=""/>
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-			<img src="${root_path}assets/img/default.png" class="img-thumbnail img-fluid" alt="User Picture">
+			<img src="${root_path}avatar" class="img-thumbnail img-fluid user-avatar clicky" alt="User Picture">
         </div>
 
         <ul class="list-unstyled components">
             <p>${active_user.firstName} ${active_user.lastName}</p>
-            <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Dash Board</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li>
-                        <a href="#">Home 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 3</a>
-                    </li>
-                </ul>
-            </li>
-			<t:nav_link title="User" module="100" link="user/" />
-			<t:nav_link title="Role" module="101" link="user/role.jsp" />
-			<t:nav_link title="Product" module="200" link="product/" />
-			<t:nav_link title="Brand" module="201" link="product/brand.jsp" />
-			<t:nav_link title="Category" module="202" link="product/category.jsp" />
-			<t:nav_link title="POS" module="300" link="pos/" />
-			<t:nav_link title="Transaction" module="400" link="transaction/" />
-            <li>
-                <a href="#">Logout</a>
-            </li>
+			<t:nav_link title="Dashboard" pagetag="${pagetag}" sprite="chart-line" module="-1" link="system/"/>
+			<t:nav_link title="User" pagetag="${pagetag}" sprite="user" module="100" link="system/user/"/>
+			<t:nav_link title="Role" pagetag="${pagetag}" sprite="users" module="101" link="system/user/role.jsp" />
+			<t:nav_link title="Product" pagetag="${pagetag}" sprite="boxes" module="200" link="system/product/"/>
+			<t:nav_link title="Brand" pagetag="${pagetag}" sprite="tag" module="201" link="system/product/brand.jsp" />
+			<t:nav_link title="Category" pagetag="${pagetag}" sprite="tags" module="202" link="system/product/category.jsp" />
+			<t:nav_link title="POS" pagetag="${pagetag}" sprite="cash-register" module="300" link="system/pos/"/>
+			<t:nav_link title="Transaction" pagetag="${pagetag}" sprite="chart-bar" module="400" link="system/transaction/" />
+			<t:nav_link title="Logout" sprite="sign-out-alt" module="-1" link="logout" />
         </ul>
     </nav>
 
@@ -46,22 +34,17 @@
     <div id="content" class="w-100 p-3">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-
                 <button type="button" id="sidebarCollapse" class="btn btn-info">
-                    <i class="fas fa-align-left"></i>
-                    <span>Toggle Sidebar</span>
+					<span class="fa fa-bars"></span>
                 </button>
 
                 <nav id="top-nav" class="d-flex align-items-center" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
+						<jsp:invoke fragment="top_nav"/>
                     </ol>
                 </nav>
             </div>
         </nav>
-
         <jsp:invoke fragment="content"/>
     </div>
 

@@ -30,6 +30,7 @@ public class User {
     private String password;
 	private Role role;
     private boolean status;
+	private byte[] avatar;
 	
     public User() {
     }
@@ -122,6 +123,14 @@ public class User {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public byte[] getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(byte[] avatar) {
+		this.avatar = avatar;
 	}
     
 }

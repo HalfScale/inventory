@@ -10,6 +10,7 @@
 <link type="text/css" rel="stylesheet" href="${root_path}assets/css/util.css"/>
 <link type="text/css" rel="stylesheet" href="${root_path}assets/css/system.css"/>
 <link type="text/css" rel="stylesheet" href="${root_path}assets/css/sidenav.css"/>
+<link type="text/css" rel="stylesheet" href="${root_path}assets/font-awesome-5/css/all.min.css"/>
 
 <!--JavaScript Source-->
 <script src="${root_path}assets/js/jQuery/jquery-3.4.1.min.js"></script>

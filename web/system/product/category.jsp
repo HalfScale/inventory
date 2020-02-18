@@ -1,9 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="n" tagdir="/WEB-INF/tags/topnav" %>
 <!DOCTYPE html>
-<t:system_page title="Category">
+<t:system_page title="Category" pagetag="category">
 	<jsp:attribute name="head">
 
+    </jsp:attribute>
+	
+	<jsp:attribute name="top_nav_link">
+        <n:prev title="Dashboard" link="../"/>
+        <n:curr title="Category"/>
     </jsp:attribute>
 
     <jsp:attribute name="post_body">
@@ -20,9 +26,8 @@
         <table id="categoryTable" class="table table-hover w-100">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Active</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -33,7 +38,7 @@
         </table>
 
 		<!--Modal-->
-		<div id="categoryAddModal">
+		<div id="categoryAddModal" class="hidden-widget">
 			<form>
 				<div class="form-group">
 					<label for="">Name</label>
@@ -53,7 +58,7 @@
 			</form>
 		</div>
 
-		<div id="categoryUpdateModal">
+		<div id="categoryUpdateModal" class="hidden-widget">
 			<form>
 				<div class="hidden-widget">
 					<input type="text" class="id" name="id">
