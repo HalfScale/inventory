@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="n" tagdir="/WEB-INF/tags/topnav" %>
-<t:system_page title="Product">
+<t:system_page title="Product" pagetag="product">
 	<jsp:attribute name="head">
         <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     </jsp:attribute>

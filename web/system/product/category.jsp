@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="n" tagdir="/WEB-INF/tags/topnav" %>
 <!DOCTYPE html>
-<t:system_page title="Category">
+<t:system_page title="Category" pagetag="category">
 	<jsp:attribute name="head">
 
     </jsp:attribute>

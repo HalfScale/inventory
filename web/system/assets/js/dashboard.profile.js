@@ -17,6 +17,8 @@ $(function () {
 				sysAlert({
 					text: result.response
 				});
+				
+				imageInput.next('.custom-file-label').text('Choose a file');
 			}
 		});
 
@@ -27,6 +29,7 @@ $(function () {
 		var selectedFile = e.currentTarget.files[0];
 		var reader = new FileReader();
 		var avatar = $('#user-avatar');
+		var avatarSecondary = $('.user-avatar');
 		
 		var fileSize = ((selectedFile.size / 1024) / 1024).toFixed(4);
 
@@ -39,10 +42,11 @@ $(function () {
 			});
 		} else {
 			avatar.attr('title', selectedFile.name);
-			$(this).next('.custom-file-label').html(selectedFile.name);
+			$(this).next('.custom-file-label').text(selectedFile.name);
 			
 			reader.onload = function (e) {
 				avatar.attr('src', e.target.result);
+				avatarSecondary.attr('src', e.target.result);
 			};
 			
 			reader.readAsDataURL(selectedFile);

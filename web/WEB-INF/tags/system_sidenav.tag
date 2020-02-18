@@ -1,32 +1,32 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@tag description="System Side Navigation" pageEncoding="UTF-8"%>
 
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="title"%>
+<%@attribute name="pagetag" type="java.lang.String"%>
 <%@attribute name="content" fragment="true" required="true" %>
 <%@attribute name="top_nav" fragment="true" required="true" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <div class="wrapper">
-
+	<c:out value=""/>
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-			<img src="${root_path}avatar" class="img-thumbnail img-fluid user-avatar" alt="User Picture">
+			<img src="${root_path}avatar" class="img-thumbnail img-fluid user-avatar clicky" alt="User Picture">
         </div>
 
         <ul class="list-unstyled components">
             <p>${active_user.firstName} ${active_user.lastName}</p>
-			<t:nav_link title="Dashboard" sprite="chart-line" module="-1"/>
-			<t:nav_link title="User" sprite="user" module="100" link="user/" />
-			<t:nav_link title="Role" sprite="users" module="101" link="user/role.jsp" />
-			<t:nav_link title="Product" sprite="boxes" module="200" link="product/" />
-			<t:nav_link title="Brand" sprite="tag" module="201" link="product/brand.jsp" />
-			<t:nav_link title="Category" sprite="tags" module="202" link="product/category.jsp" />
-			<t:nav_link title="POS" sprite="cash-register" module="300" link="pos/" />
-			<t:nav_link title="Transaction" sprite="chart-bar" module="400" link="transaction/" />
-            <li>
-                <a class="sys-sidenav-link" href="#">Logout</a>
-            </li>
+			<t:nav_link title="Dashboard" pagetag="${pagetag}" sprite="chart-line" module="-1" link="system/"/>
+			<t:nav_link title="User" pagetag="${pagetag}" sprite="user" module="100" link="system/user/"/>
+			<t:nav_link title="Role" pagetag="${pagetag}" sprite="users" module="101" link="system/user/role.jsp" />
+			<t:nav_link title="Product" pagetag="${pagetag}" sprite="boxes" module="200" link="system/product/"/>
+			<t:nav_link title="Brand" pagetag="${pagetag}" sprite="tag" module="201" link="system/product/brand.jsp" />
+			<t:nav_link title="Category" pagetag="${pagetag}" sprite="tags" module="202" link="system/product/category.jsp" />
+			<t:nav_link title="POS" pagetag="${pagetag}" sprite="cash-register" module="300" link="system/pos/"/>
+			<t:nav_link title="Transaction" pagetag="${pagetag}" sprite="chart-bar" module="400" link="system/transaction/" />
+			<t:nav_link title="Logout" sprite="sign-out-alt" module="-1" link="logout" />
         </ul>
     </nav>
 
@@ -41,9 +41,6 @@
                 <nav id="top-nav" class="d-flex align-items-center" aria-label="breadcrumb">
                     <ol class="breadcrumb">
 						<jsp:invoke fragment="top_nav"/>
-<!--                        <li class="breadcrumb-item"><a href="#">Home</a></li>-->
-<!--                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>-->
                     </ol>
                 </nav>
             </div>

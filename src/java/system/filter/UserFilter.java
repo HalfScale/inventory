@@ -123,12 +123,16 @@ public class UserFilter implements Filter {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
+		resp.setHeader("Cache-Control", "no-cache");
+		resp.setHeader("Cache-Control", "no-store");
+		resp.setHeader("Pragma", "no-cache");
+		resp.setDateHeader("Expires", 0);
 
 		String loginPage = String.format("%s/", req.getContextPath());
 		try {
 			HttpSession session = req.getSession();
 			User user = (User) session.getAttribute(User.ATTR_ACTIVE_USER);
-
+			Console.log("user still logged in");
 			if (user == null) {
 				throw new MyException("No user logged in.", 3);
 			}

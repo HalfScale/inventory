@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="n" tagdir="/WEB-INF/tags/topnav" %>
 <!DOCTYPE html>
-<t:system_page title="Dashboard">
+<t:system_page title="Dashboard" pagetag="dashboard">
 
 	<jsp:attribute name="head">
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
@@ -18,7 +18,7 @@
     </jsp:attribute>
 
     <jsp:body>
-		<main class="hidden-widget">
+		<main>
 			<!--Grid-->
 			<div class="container">
 				<div class="row">
@@ -69,7 +69,7 @@
 			</table>
 		</main>
 
-		<section id="userProfile">
+		<section id="userProfile" class="hidden-widget">
 			<content class="d-flex justify-content-center">
 				<form id="userProfileForm">
 					<div class="some-form d-flex flex-column">
@@ -81,6 +81,7 @@
 							</div>
 						</div>
 						<button type="submit" class="btn btn-primary">Save</button>
+						<button id="profileReturn" type="button" class="btn btn-secondary">Return</button>
 					</div>
 				</form>
 			</content>

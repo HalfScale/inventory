@@ -99,6 +99,11 @@ a.sys-sidenav-link[data-toggle="collapse"]{
     margin: 0;
 }
 
+.navlink-active{
+	background: #fff;
+	color: #7386d5;
+}
+
 @media (max-width: 768px) {
 	#sidebar{
 		margin-left: -250px;
@@ -109,7 +114,13 @@ a.sys-sidenav-link[data-toggle="collapse"]{
 }
 
 .user-avatar{
+	transition: all 0.5s ease;
 	width: 200px;
 	height: 200px;
+}
+
+.user-avatar:hover{
+	-webkit-filter: blur(3px);
+	filter: blur(3px);
 }
 
