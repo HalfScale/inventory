@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -96,24 +97,26 @@ public class ImageHandler extends HttpServlet {
 		User user = (User) session.getAttribute(User.ATTR_ACTIVE_USER);
 
 		response.setContentType(getServletContext().getMimeType("png"));
-		if (user.getAvatar() != null) {
-			byte[] avatar = user.getAvatar();
-			response.setContentLength(avatar.length);
-			response.getOutputStream().write(avatar);
-		} else {
-			try (InputStream resource = getServletContext().getResourceAsStream("/assets/img/default.png")) {
-				ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-				int nRead;
-				byte[] data = new byte[5000000]; // max is 5mb
-
-				while ((nRead = resource.read(data, 0, data.length)) != -1) {
-					buffer.write(data, 0, nRead);
-				}
-
-				byte[] avatar = buffer.toByteArray();
+		try (ServletOutputStream responseStream = response.getOutputStream()) {
+			if (user.getAvatar() != null) {
+				byte[] avatar = user.getAvatar();
 				response.setContentLength(avatar.length);
-				response.getOutputStream().write(avatar);
+				responseStream.write(avatar);
+			} else {
+				try (InputStream resource = getServletContext().getResourceAsStream("/assets/img/default.png");
+						ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+
+					int nRead;
+					byte[] data = new byte[5000000]; // max is 5mb
+
+					while ((nRead = resource.read(data, 0, data.length)) != -1) {
+						buffer.write(data, 0, nRead);
+					}
+
+					byte[] avatar = buffer.toByteArray();
+					response.setContentLength(avatar.length);
+					responseStream.write(avatar);
+				}
 			}
 		}
 	}
@@ -131,7 +134,7 @@ public class ImageHandler extends HttpServlet {
 			throws ServletException, IOException {
 		response.setHeader("Content-Type", "application/json");
 		Map result = new HashMap();
-		
+
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
 		User user = (User) session.getAttribute(User.ATTR_ACTIVE_USER);
@@ -146,13 +149,13 @@ public class ImageHandler extends HttpServlet {
 				session.setAttribute(User.ATTR_ACTIVE_USER, userUpdated);
 
 				result.put("response", "Avatar saved successfully!");
-				result.put("status",1);
+				result.put("status", 1);
 			} catch (SQLException e) {
 				result.put("response", e.getMessage());
-				result.put("status",1);
+				result.put("status", 1);
 				throw new ServletException("Error at SQL/DB level.", e);
 			}
-			
+
 			out.println(GSON.toJson(result));
 		}
 

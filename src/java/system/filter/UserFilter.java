@@ -132,16 +132,9 @@ public class UserFilter implements Filter {
 		try {
 			HttpSession session = req.getSession();
 			User user = (User) session.getAttribute(User.ATTR_ACTIVE_USER);
-			Console.log("user still logged in");
 			if (user == null) {
 				throw new MyException("No user logged in.", 3);
 			}
-			
-			//We query the current user so we can change the values
-			//that is been changed in the role module to accomodate the access of users.
-//			User anotherUser = UserDao.getById(con, user.getId());
-//			UserController controller = new UserController();
-//			session.setAttribute(User.ATTR_ACTIVE_USER, controller.getActiveUser(user.getId()));
 
 			chain.doFilter(request, response);
 		} catch (MyException e) {
