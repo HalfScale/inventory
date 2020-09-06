@@ -4,3 +4,20 @@ Using Java, JDBC API for back end. jQuery and BootStrap for user interface and e
 
 ## Objective
 To learn BootStrap CSS Framework and implement through creation of projects.
+
+## UI Sample
+
+**User Profile**
+![](src//java/sample-img/profile.PNG)
+
+**Dashboard**
+![](src//java/sample-img/dashboard.PNG)
+
+**Item List**
+![](src//java/sample-img/item-list.PNG)
+
+**POS**
+![](src//java/sample-img/pos.PNG)
+
+**Transaction**
+![](src//java/sample-img/transaction.PNG)
