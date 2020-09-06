@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import system.bean.Category;
 import system.dao.CategoryDao;
+import system.logger.Console;
 
 /**
  *
@@ -70,7 +71,7 @@ public class CategoryController extends HttpServlet {
 			throws ServletException, IOException {
 		response.setHeader("Content-Type", "application/json");
 		Map result = new HashMap();
-
+		Console.log("inside category controller");
 		try (PrintWriter out = response.getWriter()) {
 
 			switch (request.getServletPath()) {

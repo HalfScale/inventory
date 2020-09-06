@@ -9,57 +9,61 @@ $(function () {
 		categoryAddModal.modal('show');
 	});
 	
-	categoryTable.DataTable({
-		ajax: {
-			url: $g.root_path + 'category.getAll',
-			dataSrc: 'data'
-		},
-		columns: [
-			{data: 'name'},
-			{
-				data: null,
-				width: '7em',
-				className: 'text-center',
-				render: function (data) {
-					if (data.status) {
-						return $('<span>', {
-							class: 'badge badge-success',
-							text: 'Active'
-						}).prop('outerHTML');
-					}
-
-					return $('<span>', {
-						class: 'badge badge-danger',
-						text: 'Inactive'
-					}).prop('outerHTML');
-				}
-			},
-			{
-				data: null,
-				width: '10em',
-				className: 'text-center',
-				render: function () {
-					var editBtn = $('<button>', {
-						type: 'button',
-						class: 'categoryEditBtn btn btn-outline-warning btn-sm',
-						text: 'Edit'
-					}).prop('outerHTML');
-
-					var deleteBtn = $('<button>', {
-						type: 'button',
-						class: 'categoryDeleteBtn btn btn-outline-danger btn-sm',
-						text: 'Delete'
-					}).prop('outerHTML');
-
-					return editBtn + deleteBtn;
-				}
-			}
-		],
-		createdRow: function (row, data) {
-			$(row).addClass('brandRow')
-					.data('category.row.data', data);
-		}
+	$.get($g.root_path + 'category.getAll').done(function (result) {
+		console.log('category.getAll result', result);
 	});
+	
+//	categoryTable.DataTable({
+//		ajax: {
+//			url: $g.root_path + 'category.getAll',
+//			dataSrc: 'data'
+//		},
+//		columns: [
+//			{data: 'name'},
+//			{
+//				data: null,
+//				width: '7em',
+//				className: 'text-center',
+//				render: function (data) {
+//					if (data.status) {
+//						return $('<span>', {
+//							class: 'badge badge-success',
+//							text: 'Active'
+//						}).prop('outerHTML');
+//					}
+//
+//					return $('<span>', {
+//						class: 'badge badge-danger',
+//						text: 'Inactive'
+//					}).prop('outerHTML');
+//				}
+//			},
+//			{
+//				data: null,
+//				width: '10em',
+//				className: 'text-center',
+//				render: function () {
+//					var editBtn = $('<button>', {
+//						type: 'button',
+//						class: 'categoryEditBtn btn btn-outline-warning btn-sm',
+//						text: 'Edit'
+//					}).prop('outerHTML');
+//
+//					var deleteBtn = $('<button>', {
+//						type: 'button',
+//						class: 'categoryDeleteBtn btn btn-outline-danger btn-sm',
+//						text: 'Delete'
+//					}).prop('outerHTML');
+//
+//					return editBtn + deleteBtn;
+//				}
+//			}
+//		],
+//		createdRow: function (row, data) {
+//			$(row).addClass('brandRow')
+//					.data('category.row.data', data);
+//		}
+//	});
 
 	var categoryAddModal = $('#categoryAddModal').standardDialog({
 		title: 'Add Category',
